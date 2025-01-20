@@ -3,6 +3,14 @@
     public double RequestFee { get; set; } = 500;
 
     public LWTTFlight(
+    string flightNumber,
+    string origin,
+    string destination,
+    DateTime expectedTime) : base(flightNumber, origin, destination, expectedTime)
+    {
+    }
+
+    public LWTTFlight(
         string flightNumber, 
         string origin, 
         string destination, 

@@ -1,6 +1,14 @@
 ﻿class NORMFlight : Flight
 {
     public NORMFlight(
+    string flightNumber,
+    string origin,
+    string destination,
+    DateTime expectedTime) : base(flightNumber, origin, destination, expectedTime)
+    {
+    }
+
+    public NORMFlight(
         string flightNumber, 
         string origin, 
         string destination, 

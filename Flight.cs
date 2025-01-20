@@ -11,6 +11,14 @@ abstract class Flight
 
     public string Status { get; set; } = "On Time";
 
+    public Flight(string flightNumber, string origin, string destination, DateTime expectedTime)
+    {
+        FlightNumber = flightNumber;
+        Origin = origin;
+        Destination = destination;
+        ExpectedTime = expectedTime;
+    }
+
     public Flight(string flightNumber, string origin, string destination, DateTime expectedTime, string status)
     {
         FlightNumber = flightNumber;
