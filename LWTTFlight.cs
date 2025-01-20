@@ -2,6 +2,8 @@
 {
     public double RequestFee { get; set; } = 500;
 
+    public LWTTFlight() : base() { }
+
     public LWTTFlight(
     string flightNumber,
     string origin,

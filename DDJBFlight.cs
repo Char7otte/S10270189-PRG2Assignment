@@ -2,6 +2,8 @@
 {
     public double RequestFee { get; set; } = 300;
 
+    public DDJBFlight() : base() { }
+
     public DDJBFlight(
     string flightNumber,
     string origin,

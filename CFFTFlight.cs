@@ -2,6 +2,8 @@
 {
     public double RequestFee { get; set; } = 150;
 
+    public CFFTFlight() : base() { }
+
     public CFFTFlight(
     string flightNumber,
     string origin,

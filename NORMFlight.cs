@@ -1,5 +1,7 @@
 ﻿class NORMFlight : Flight
 {
+    public NORMFlight() : base() { }
+
     public NORMFlight(
     string flightNumber,
     string origin,
