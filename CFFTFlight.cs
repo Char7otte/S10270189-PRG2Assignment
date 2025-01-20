@@ -1,6 +1,6 @@
 ﻿class CFFTFlight : Flight
 {
-    public double RequestFee { get; set; }
+    public double RequestFee { get; set; } = 150;
 
     public CFFTFlight(
         string flightNumber, 
@@ -9,7 +9,6 @@
         DateTime expectedTime, 
         string status) : base(flightNumber, origin, destination, expectedTime, status)
     {
-        RequestFee = 150;
     }
 
     public override double CalculateFees()
