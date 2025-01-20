@@ -1,35 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace S10270189_PRG2Assignment
+﻿class LWTTFlight : Flight
 {
-    internal class LWTTFlight : Flight
+    public double RequestFee { get; set; }
+
+    public LWTTFlight(string flightNumber, string origin, string destination, DateTime expectedTime, string status) : base(flightNumber, origin, destination, expectedTime, status)
     {
-        public double RequestFee { get; set; }
+        RequestFee = 500;
+    }
 
-        public LWTTFlight(string flightNumber, string origin, string destination, DateTime expectedTime, string status) : base(flightNumber, origin, destination, expectedTime, status)
+    public override double CalculateFees()
+    {
+        double totalfee = 0;
+        if (Destination == "Singapore (SIN)")
         {
-            RequestFee = 500;
+            return totalfee += 500 + RequestFee;
         }
-
-        public override double CalculateFees()
+        else
         {
-            double totalfee = 0;
-            if (Destination == "Singapore (SIN)")
-            {
-                return totalfee += 500 + RequestFee;
-            }
-            else
-            {
-                return totalfee += 800 + RequestFee;
-            }
-        }
-        public override string ToString()
-        {
-            return base.ToString();
+            return totalfee += 800 + RequestFee;
         }
     }
+    public override string ToString()
+    {
+        return base.ToString();
+    }
 }
+
