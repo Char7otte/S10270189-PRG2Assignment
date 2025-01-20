@@ -1,4 +1,10 @@
-﻿class BoardingGate
+﻿//==========================================================
+// Student Number	: S0270189
+// Student Name	: Huang Yangmile
+// Partner Name	: Larry Chia
+//==========================================================
+
+class BoardingGate
 {
     public string GetName { get; set; }
     public bool SupportsCFFT { get; set; }

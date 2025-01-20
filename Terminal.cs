@@ -1,4 +1,10 @@
-﻿class Terminal
+﻿//==========================================================
+// Student Number	: S0270189
+// Student Name	: Huang Yangmile
+// Partner Name	: Larry Chia
+//==========================================================
+
+class Terminal
 {
     public string TerminalName { get; set; }
     public Dictionary<string, Airline> Airlines { get; set; }

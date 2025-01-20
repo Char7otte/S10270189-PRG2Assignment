@@ -1,4 +1,10 @@
-﻿class Airline
+﻿//==========================================================
+// Student Number	: S0270189
+// Student Name	: Huang Yangmile
+// Partner Name	: Larry Chia
+//==========================================================
+
+class Airline
 {
     public string Name { get; set; }
     public string Code { get; set; }
