@@ -1,48 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Schema;
-
-namespace S10270189_PRG2Assignment
+﻿
+abstract class Flight
 {
-    internal abstract class Flight
+    public string FlightNumber { get; set; }
+
+    public string Origin { get; set; }
+
+    public string Destination { get; set; }
+
+    public DateTime ExpectedTime { get; set; }
+
+    public string Status { get; set; }
+
+    public Flight(string flightNumber, string origin, string destination, DateTime expectedTime, string status)
     {
-        public string FlightNumber { get; set; }
+        FlightNumber = flightNumber;
+        Origin = origin;
+        Destination = destination;
+        ExpectedTime = expectedTime;
+        Status = status;
+    }
 
-        public string Origin { get; set; }
-
-        public string Destination { get; set; }
-
-        public DateTime ExpectedTime { get; set; }
-
-        public string Status { get; set; }
-
-        public Flight(string flightNumber, string origin, string destination, DateTime expectedTime, string status)
+    public virtual double CalculateFees()
+    {
+        double totalfee = 0;
+        if (Destination == "Singapore (SIN)")
         {
-            FlightNumber = flightNumber;
-            Origin = origin;
-            Destination = destination;
-            ExpectedTime = expectedTime;
-            Status = status;
+            return totalfee += 500;
         }
-
-        public virtual double CalculateFees()
+        else
         {
-            double totalfee = 0;
-            if (Destination == "Singapore (SIN)")
-            {
-                return totalfee += 500;
-            }
-            else
-            {
-                return totalfee += 800;
-            }
-        }
-        public override string ToString()
-        {
-            return $"Flight Number: {FlightNumber}\nOrigin: {Origin}\nDestination: {Destination}\nExpected Time: {ExpectedTime}\nStatus: {Status}";
+            return totalfee += 800;
         }
     }
+    public override string ToString()
+    {
+        return $"Flight Number: {FlightNumber}\nOrigin: {Origin}\nDestination: {Destination}\nExpected Time: {ExpectedTime}\nStatus: {Status}";
+    }
 }
+
