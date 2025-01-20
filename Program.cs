@@ -54,4 +54,33 @@ void LoadFlights(Dictionary<string, Flight> flightsDict, StreamReader sr)
         Console.WriteLine($"{lineCount} Flights Loaded!");
     }
 }
+
+//Feature #3: List Flights
+Dictionary<string, string> specialRequestFlightsDict = new();
+void ListFlights(Dictionary<string, Flight> flightsDict)
+{
+    Console.WriteLine("" +
+        "=============================================\r\n" +
+        "List of Flights for Changi Airport Terminal 5\r\n" +
+        "=============================================");
+
+    string stringFormat = "{0,-20} {1,-20} {2,-20} {3,-20}\n{4, -20}";
+
+    Console.WriteLine(string.Format(stringFormat, "Flight Number", "Origin", "Destination", "Expected", "Departure/Arrival Time"));
+
+    foreach (KeyValuePair<string, Flight> kvp in flightsDict)
+    {
+        Flight flight = kvp.Value;
+        string flightNumber = flight.FlightNumber;
+        string origin = flight.Origin;
+        string destination = flight.Destination;
+        DateOnly date = DateOnly.FromDateTime(flight.ExpectedTime);
+        TimeOnly time = TimeOnly.FromDateTime(flight.ExpectedTime);
+
+        Console.WriteLine(string.Format(stringFormat, flightNumber, origin, destination, date, time));
+
+    }
+}
+
 LoadFlights(flightsDict, new("flights.csv"));
+ListFlights(flightsDict);
