@@ -1,10 +1,24 @@
 ﻿class LWTTFlight : Flight
 {
-    public double RequestFee { get; set; }
+    public double RequestFee { get; set; } = 500;
 
-    public LWTTFlight(string flightNumber, string origin, string destination, DateTime expectedTime, string status) : base(flightNumber, origin, destination, expectedTime, status)
+    public LWTTFlight() : base() { }
+
+    public LWTTFlight(
+    string flightNumber,
+    string origin,
+    string destination,
+    DateTime expectedTime) : base(flightNumber, origin, destination, expectedTime)
     {
-        RequestFee = 500;
+    }
+
+    public LWTTFlight(
+        string flightNumber, 
+        string origin, 
+        string destination, 
+        DateTime expectedTime, 
+        string status) : base(flightNumber, origin, destination, expectedTime, status)
+    {
     }
 
     public override double CalculateFees()

@@ -1,10 +1,24 @@
 ﻿class DDJBFlight : Flight
 {
-    public double RequestFee { get; set; }
+    public double RequestFee { get; set; } = 300;
 
-    public DDJBFlight(string flightNumber, string origin, string destination, DateTime expectedTime, string status) : base(flightNumber, origin, destination, expectedTime, status)
+    public DDJBFlight() : base() { }
+
+    public DDJBFlight(
+    string flightNumber,
+    string origin,
+    string destination,
+    DateTime expectedTime) : base(flightNumber, origin, destination, expectedTime)
     {
-        RequestFee = 300;
+    }
+
+    public DDJBFlight(
+        string flightNumber, 
+        string origin, 
+        string destination, 
+        DateTime expectedTime, 
+        string status) : base(flightNumber, origin, destination, expectedTime, status)
+    {
     }
 
     public override double CalculateFees()
