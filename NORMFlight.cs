@@ -1,4 +1,10 @@
-﻿class NORMFlight : Flight
+﻿//==========================================================
+// Student Number	: S10259006
+// Student Name	: Larry Chia
+// Partner Name	: Huang Yangmile
+//==========================================================
+
+class NORMFlight : Flight
 {
     public NORMFlight() : base() { }
 

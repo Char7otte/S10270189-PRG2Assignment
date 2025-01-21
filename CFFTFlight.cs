@@ -1,4 +1,10 @@
-﻿class CFFTFlight : Flight
+﻿//==========================================================
+// Student Number	: S10259006
+// Student Name	: Larry Chia
+// Partner Name	: Huang Yangmile
+//==========================================================
+
+class CFFTFlight : Flight
 {
     public double RequestFee { get; set; } = 150;
 

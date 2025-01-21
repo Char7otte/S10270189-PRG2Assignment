@@ -1,4 +1,9 @@
-﻿
+﻿//==========================================================
+// Student Number	: S10259006
+// Student Name	: Larry Chia
+// Partner Name	: Huang Yangmile
+//==========================================================
+
 abstract class Flight
 {
     public string FlightNumber { get; set; }
