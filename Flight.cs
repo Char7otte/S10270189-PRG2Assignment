@@ -28,9 +28,9 @@ namespace S10270189_PRG2Assignment
             Status = status;
         }
 
-        public double CalculateFees()
+        public virtual double CalculateFees()
         {
-            int totalfee = 0;
+            double totalfee = 0;
             if (Destination == "Singapore (SIN)")
             {
                 return totalfee += 500;
