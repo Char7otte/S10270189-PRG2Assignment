@@ -66,7 +66,7 @@ void ListFlights(Dictionary<string, Flight> flightsDict)
 
     string stringFormat = "{0,-20} {1,-20} {2,-20} {3,-20}\n{4, -20}";
 
-    Console.WriteLine(string.Format(stringFormat, "Flight Number", "Origin", "Destination", "Expected", "Departure/Arrival Time"));
+    Console.WriteLine(stringFormat, "Flight Number", "Origin", "Destination", "Expected", "Departure/Arrival Time");
 
     foreach (KeyValuePair<string, Flight> kvp in flightsDict)
     {
@@ -77,7 +77,7 @@ void ListFlights(Dictionary<string, Flight> flightsDict)
         DateOnly date = DateOnly.FromDateTime(flight.ExpectedTime);
         TimeOnly time = TimeOnly.FromDateTime(flight.ExpectedTime);
 
-        Console.WriteLine(string.Format(stringFormat, flightNumber, origin, destination, date, time));
+        Console.WriteLine(stringFormat, flightNumber, origin, destination, date, time);
 
     }
 }
