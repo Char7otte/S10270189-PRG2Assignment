@@ -122,7 +122,7 @@ void ListFlights(Dictionary<string, Flight> flightsDict)
 
     string stringFormat = "{0,-20} {1,-20} {2,-20} {3,-20}\n{4, -20}";
 
-    Console.WriteLine(stringFormat, "Flight Number", "Origin", "Destination", "Expected", "Departure/Arrival Time");
+    Console.WriteLine(stringFormat, "Flight Number", "Airline Name", "Origin", "Destination", "Expected", "Departure/Arrival Time");
 
     foreach (KeyValuePair<string, Flight> kvp in flightsDict)
     {
@@ -133,7 +133,15 @@ void ListFlights(Dictionary<string, Flight> flightsDict)
         DateOnly date = DateOnly.FromDateTime(flight.ExpectedTime);
         TimeOnly time = TimeOnly.FromDateTime(flight.ExpectedTime);
 
-        Console.WriteLine(stringFormat, flightNumber, origin, destination, date, time);
+        string airlineCode = $"{flightNumber[0]}{flightNumber[1]}";
+        string airlineName = "ERROR";
+
+        if (airlinesDict.ContainsKey(airlineCode))
+        {
+            airlineName = airlinesDict[airlineCode].Name;
+        }
+
+        Console.WriteLine(stringFormat, flightNumber, airlineName, origin, destination, date, time);
 
     }
 }
