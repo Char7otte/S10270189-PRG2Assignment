@@ -50,7 +50,7 @@ void LoadAirlineAndBoardingGateData(
             bool LWTTBool = bool.Parse(line.Split(',')[3]);
 
             //Create a new boarding gate object
-            BoardingGate boardingGateObj = new(boardingGate, CFFTBool, DDJBBool, LWTTBool, null);
+            BoardingGate boardingGateObj = new(boardingGate, CFFTBool, DDJBBool, LWTTBool);
             boardingGatesDict.Add(boardingGate, boardingGateObj);
         }
         Console.WriteLine($"{lineCount} Boarding Gates Loaded!");
