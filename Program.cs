@@ -150,6 +150,57 @@ void ListFlights(Dictionary<string, Flight> flightsDict)
     }
 }
 
+//Feature #5: Assign boarding gate to flight
+void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<string, BoardingGate> boardingGatesDict)
+{
+    Console.WriteLine("=============================================\n" +
+                      "Assign a Boarding Gate to a Flight\n" +
+                      "=============================================");
+
+
+    string flightNumber = InputForString("Enter Flight Number:", "how did you mess up the flight number brugh");
+    string boardingGate = InputForString("Enter Boarding Gate Name:", "Boarding gate input borked");
+    
+    if (!flightsDict.ContainsKey(flightNumber))
+    {
+        Console.WriteLine("FLIGHT NUMBER NOT FOUND!");
+        Console.ReadLine();
+        return;
+    }
+
+    if (!boardingGatesDict.ContainsKey(boardingGate))
+    {
+        Console.WriteLine("BOARDING GATE NOT FOUND!");
+        Console.ReadLine();
+        return;
+    }
+
+    Console.WriteLine(flightsDict[flightNumber].ToString());
+    Console.WriteLine(boardingGatesDict[boardingGate].ToString());
+    
+    boardingGatesDict[boardingGate].Flight = flightsDict[flightNumber];
+
+    string stringInput = InputForString("Would you like to update the status of the flight? (Y/N)", "How did you break this");
+    stringInput = stringInput.ToUpper();
+    
+    if (stringInput == "N")
+    {
+        return;
+    }
+    else if (stringInput != "Y")
+    {
+        Console.WriteLine("Invalid input");
+        return;
+    }
+
+    Console.WriteLine("1. Delayed\n" +
+                      "2. Boarding\n" +
+                      "3. On Time");
+    int intInput = InputForInt("Please select the new status of the flight:", "how");
+    
+    Console.WriteLine($"Flight {flightNumber} has been assigned to Boarding Gate {boardingGate}!");
+}
+
 LoadAirlineandBoardingGateData(airlinesDict, boardingGatesDict, new("airlines.csv"), new("boardinggates.csv"));
 LoadFlights(flightsDict, new("flights.csv"));
 Console.WriteLine("\n\n\n\n\n");
@@ -191,7 +242,7 @@ while (true)
     }
     else if (userInput == 3)
     {
-        
+        AssignGateToFlight(flightsDict, boardingGatesDict);
     }
     else if (userInput == 4)
     {
