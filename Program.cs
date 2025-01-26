@@ -2,9 +2,9 @@
 Dictionary<string, Airline> airlinesDict = new();
 Dictionary<string, BoardingGate> boardingGatesDict = new();
 void LoadAirlineAndBoardingGateData(
-    Dictionary<string, Airline> airlinesDict, 
-    Dictionary<string, BoardingGate> boardingGatesDict, 
-    StreamReader sr, 
+    Dictionary<string, Airline> airlinesDict,
+    Dictionary<string, BoardingGate> boardingGatesDict,
+    StreamReader sr,
     StreamReader sr2)
 {
     using (sr)
@@ -117,7 +117,6 @@ void LoadFlights(Dictionary<string, Flight> flightsDict, StreamReader sr)
 
 //Feature #3: List Flights
 Dictionary<string, string> specialRequestFlightsDict = new();
-
 void ListFlights(Dictionary<string, Flight> flightsDict, Dictionary<string, Airline> airlinesDict)
 {
     Console.WriteLine("" +
@@ -150,161 +149,161 @@ void ListFlights(Dictionary<string, Flight> flightsDict, Dictionary<string, Airl
 
         Console.WriteLine(stringFormat, flightNumber, airlineName, origin, destination, date, time);
     }
+}
 
 //Feature #5: Assign boarding gate to flight
-    void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<string, BoardingGate> boardingGatesDict)
+void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<string, BoardingGate> boardingGatesDict)
+{
+    Console.WriteLine("=============================================\n" +
+                      "Assign a Boarding Gate to a Flight\n" +
+                      "=============================================");
+
+
+    string flightNumber = InputForString("Enter Flight Number:", "how did you mess up the flight number");
+    string boardingGate = InputForString("Enter Boarding Gate Name:", "Boarding gate input broke");
+
+    if (!flightsDict.ContainsKey(flightNumber))
     {
-        Console.WriteLine("=============================================\n" +
-                          "Assign a Boarding Gate to a Flight\n" +
-                          "=============================================");
-
-
-        string flightNumber = InputForString("Enter Flight Number:", "how did you mess up the flight number");
-        string boardingGate = InputForString("Enter Boarding Gate Name:", "Boarding gate input broke");
-
-        if (!flightsDict.ContainsKey(flightNumber))
-        {
-            Console.WriteLine("FLIGHT NUMBER NOT FOUND!");
-            Console.ReadLine();
-            return;
-        }
-
-        if (!boardingGatesDict.ContainsKey(boardingGate))
-        {
-            Console.WriteLine("BOARDING GATE NOT FOUND!");
-            Console.ReadLine();
-            return;
-        }
-
-        Console.WriteLine(flightsDict[flightNumber].ToString());
-        Console.WriteLine(boardingGatesDict[boardingGate].ToString());
-
-        boardingGatesDict[boardingGate].Flight = flightsDict[flightNumber];
-
-        string stringInput = InputForString("Would you like to update the status of the flight? (Y/N)",
-            "How did you break this");
-        stringInput = stringInput.ToUpper();
-
-        if (stringInput == "N")
-        {
-            return;
-        }
-        else if (stringInput != "Y")
-        {
-            Console.WriteLine("Invalid input");
-            return;
-        }
-
-        Console.WriteLine("1. Delayed\n" +
-                          "2. Boarding\n" +
-                          "3. On Time");
-        int intInput = InputForInt("Please select the new status of the flight:", "how");
-
-        Console.WriteLine($"Flight {flightNumber} has been assigned to Boarding Gate {boardingGate}!");
+        Console.WriteLine("FLIGHT NUMBER NOT FOUND!");
+        Console.ReadLine();
+        return;
     }
 
-    LoadAirlineAndBoardingGateData(airlinesDict, boardingGatesDict, new("airlines.csv"), new("boardinggates.csv"));
-    LoadFlights(flightsDict, new("flights.csv"));
-    Console.WriteLine("\n\n\n\n\n");
+    if (!boardingGatesDict.ContainsKey(boardingGate))
+    {
+        Console.WriteLine("BOARDING GATE NOT FOUND!");
+        Console.ReadLine();
+        return;
+    }
 
+    Console.WriteLine(flightsDict[flightNumber].ToString());
+    Console.WriteLine(boardingGatesDict[boardingGate].ToString());
+
+    boardingGatesDict[boardingGate].Flight = flightsDict[flightNumber];
+
+    string stringInput = InputForString("Would you like to update the status of the flight? (Y/N)",
+        "How did you break this");
+    stringInput = stringInput.ToUpper();
+
+    if (stringInput == "N")
+    {
+        return;
+    }
+    else if (stringInput != "Y")
+    {
+        Console.WriteLine("Invalid input");
+        return;
+    }
+
+    Console.WriteLine("1. Delayed\n" +
+                      "2. Boarding\n" +
+                      "3. On Time");
+    int intInput = InputForInt("Please select the new status of the flight:", "how");
+
+    Console.WriteLine($"Flight {flightNumber} has been assigned to Boarding Gate {boardingGate}!");
+}
+
+LoadAirlineAndBoardingGateData(airlinesDict, boardingGatesDict, new("airlines.csv"), new("boardinggates.csv"));
+LoadFlights(flightsDict, new("flights.csv"));
+Console.WriteLine("\n\n\n\n\n");
+
+while (true)
+{
+    Console.WriteLine("=============================================\n" +
+                      "Welcome to Changi Airport Terminal 5\n" +
+                      "=============================================\n" +
+                      "1. List All Flights\n" +
+                      "2. List Boarding Gates\n" +
+                      "3. Assign a Boarding Gate to a Flight\n" +
+                      "4. Create Flight\n" +
+                      "5. Display Airline Flights\n" +
+                      "6. Modify Flight Details\n" +
+                      "7. Display Flight Schedule\n" +
+                      "0. Exit\n\n" +
+                      "Please select your option:");
+
+    int userInput = 0;
+    try
+    {
+        userInput = int.Parse(Console.ReadLine());
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e);
+        Console.ReadLine();
+        continue;
+    }
+
+    if (userInput == 1)
+    {
+        ListFlights(flightsDict, airlinesDict);
+    }
+    else if (userInput == 2)
+    {
+
+    }
+    else if (userInput == 3)
+    {
+        AssignGateToFlight(flightsDict, boardingGatesDict);
+    }
+    else if (userInput == 4)
+    {
+
+    }
+    else if (userInput == 5)
+    {
+
+    }
+    else if (userInput == 6)
+    {
+
+    }
+    else if (userInput == 7)
+    {
+
+    }
+    else if (userInput == 0)
+    {
+        Console.Write("Goodbye!");
+        Console.ReadLine();
+        Environment.Exit(0);
+    }
+
+    Console.ReadLine();
+}
+
+string InputForString(string request, string errorMessage)
+{
     while (true)
     {
-        Console.WriteLine("=============================================\n" +
-                          "Welcome to Changi Airport Terminal 5\n" +
-                          "=============================================\n" +
-                          "1. List All Flights\n" +
-                          "2. List Boarding Gates\n" +
-                          "3. Assign a Boarding Gate to a Flight\n" +
-                          "4. Create Flight\n" +
-                          "5. Display Airline Flights\n" +
-                          "6. Modify Flight Details\n" +
-                          "7. Display Flight Schedule\n" +
-                          "0. Exit\n\n" +
-                          "Please select your option:");
-
-        int userInput = 0;
         try
         {
-            userInput = int.Parse(Console.ReadLine());
+            Console.WriteLine(request);
+            return Console.ReadLine();
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
+            Console.WriteLine(errorMessage);
             Console.ReadLine();
-            continue;
-        }
-
-        if (userInput == 1)
-        {
-            ListFlights(flightsDict, airlinesDict);
-        }
-        else if (userInput == 2)
-        {
-
-        }
-        else if (userInput == 3)
-        {
-            AssignGateToFlight(flightsDict, boardingGatesDict);
-        }
-        else if (userInput == 4)
-        {
-
-        }
-        else if (userInput == 5)
-        {
-
-        }
-        else if (userInput == 6)
-        {
-
-        }
-        else if (userInput == 7)
-        {
-
-        }
-        else if (userInput == 0)
-        {
-            Console.Write("Goodbye!");
-            Console.ReadLine();
-            Environment.Exit(0);
-        }
-
-        Console.ReadLine();
-    }
-
-    string InputForString(string request, string errorMessage)
-    {
-        while (true)
-        {
-            try
-            {
-                Console.WriteLine(request);
-                return Console.ReadLine();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Console.WriteLine(errorMessage);
-                Console.ReadLine();
-            }
         }
     }
+}
 
-    int InputForInt(string request, string errorMessage)
+int InputForInt(string request, string errorMessage)
+{
+    while (true)
     {
-        while (true)
+        try
         {
-            try
-            {
-                Console.WriteLine(request);
-                return int.Parse(Console.ReadLine());
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Console.WriteLine(errorMessage);
-                Console.ReadLine();
-            }
+            Console.WriteLine(request);
+            return int.Parse(Console.ReadLine());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            Console.WriteLine(errorMessage);
+            Console.ReadLine();
         }
     }
 }
