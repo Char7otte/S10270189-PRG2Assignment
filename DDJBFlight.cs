@@ -42,7 +42,11 @@ class DDJBFlight : Flight
 
     public override string ToString()
     {
-        return base.ToString();
+        return $"Flight Number: {FlightNumber}\n" +
+               $"Origin: {Origin}\n" +
+               $"Destination: {Destination}\n" +
+               $"Expected Time: {ExpectedTime}\n" +
+               $"Special Request Code: DDJB";
     }
 }
 
