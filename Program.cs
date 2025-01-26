@@ -1,4 +1,60 @@
-﻿//Feature #2: Load Flights from file
+﻿//Feature #1: Load airline and boarding gate data from file
+Dictionary<string, Airline> airlinesDict = new();
+Dictionary<string, BoardingGate> boardingGatesDict = new();
+void LoadAirlineandBoardingGateData(Dictionary<string, Airline> airlinesDict, Dictionary<string, BoardingGate> boardingGatesDict, StreamReader sr, StreamReader sr2)
+{
+    using (sr)
+    {
+        Console.WriteLine("Loading Airlines...");
+
+        sr.ReadLine(); //Skip header line
+
+        string line;
+        int lineCount = 0;
+
+        while ((line = sr.ReadLine()) != null)
+        {
+            lineCount++;
+
+            //Read the line
+            string airlineName = line.Split(',')[0];
+            string airlineCode = line.Split(',')[1];
+
+            //Create a new airline object
+            Airline airline = new(airlineName, airlineCode);
+            airlinesDict.Add(airlineCode, airline);
+
+        }
+        Console.WriteLine($"{lineCount} Airlines Loaded!");
+    }
+    using (sr2)
+    {
+        Console.WriteLine("Loading Boarding Gates...");
+
+        sr2.ReadLine(); //Skip header line
+
+        string line;
+        int lineCount = 0;
+
+        while ((line = sr2.ReadLine()) != null)
+        {
+            lineCount++;
+            //Read the line
+            string boardingGate = line.Split(',')[0];
+            bool CFFTbool = bool.Parse(line.Split(',')[1]);
+            bool DDJBbool = bool.Parse(line.Split(',')[2]);
+            bool LWTTbool = bool.Parse(line.Split(',')[3]);
+
+            //Create a new boarding gate object
+            BoardingGate boardingGateobj = new(boardingGate, CFFTbool, DDJBbool, LWTTbool, null);
+            boardingGatesDict.Add(boardingGate, boardingGateobj);
+        }
+        Console.WriteLine($"{lineCount} Boarding Gates Loaded!");
+    }
+}
+
+
+//Feature #2: Load Flights from file
 Dictionary<string, Flight> flightsDict = new();
 void LoadFlights(Dictionary<string, Flight> flightsDict, StreamReader sr)
 {
@@ -82,5 +138,8 @@ void ListFlights(Dictionary<string, Flight> flightsDict)
     }
 }
 
+LoadAirlineandBoardingGateData(airlinesDict, boardingGatesDict, new("airlines.csv"), new("boardinggates.csv"));
 LoadFlights(flightsDict, new("flights.csv"));
+Console.WriteLine("\n\n\n\n\n");
+
 ListFlights(flightsDict);

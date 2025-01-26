@@ -10,9 +10,16 @@ class Airline
     public string Code { get; set; }
     public Dictionary<string, Flight> Flights { get; set; }
 
-    public Airline()
+    public Airline() { }
+    public Airline(string airlineName)
     {
         Flights = new Dictionary<string, Flight>();
+    }
+
+    public Airline(string name, string code)
+    {
+        Name = name;
+        Code = code;
     }
 
     public Airline(string name, string code, Dictionary<string, Flight> flights)
