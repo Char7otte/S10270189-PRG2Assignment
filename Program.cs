@@ -218,4 +218,39 @@ while (true)
 
     Console.ReadLine();
 }
+
+string InputForString(string request, string errorMessage)
+{
+    while (true)
+    {
+        try
+        {
+            Console.WriteLine(request);
+            return Console.ReadLine();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            Console.WriteLine(errorMessage);
+            Console.ReadLine();
+        }
+    }
+}
+
+int InputForInt(string request, string errorMessage)
+{
+    while (true)
+    {
+        try
+        {
+            Console.WriteLine(request);
+            return int.Parse(Console.ReadLine());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            Console.WriteLine(errorMessage);
+            Console.ReadLine();
+        }
+    }
 }
