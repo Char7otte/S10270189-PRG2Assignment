@@ -1,7 +1,11 @@
 ﻿//Feature #1: Load airline and boarding gate data from file
 Dictionary<string, Airline> airlinesDict = new();
 Dictionary<string, BoardingGate> boardingGatesDict = new();
-void LoadAirlineandBoardingGateData(Dictionary<string, Airline> airlinesDict, Dictionary<string, BoardingGate> boardingGatesDict, StreamReader sr, StreamReader sr2)
+void LoadAirlineandBoardingGateData(
+    Dictionary<string, Airline> airlinesDict, 
+    Dictionary<string, BoardingGate> boardingGatesDict, 
+    StreamReader sr, 
+    StreamReader sr2)
 {
     using (sr)
     {
