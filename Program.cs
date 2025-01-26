@@ -140,4 +140,6 @@ void ListFlights(Dictionary<string, Flight> flightsDict)
 
 LoadAirlineandBoardingGateData(airlinesDict, boardingGatesDict, new("airlines.csv"), new("boardinggates.csv"));
 LoadFlights(flightsDict, new("flights.csv"));
+Console.WriteLine("\n\n\n\n\n");
+
 ListFlights(flightsDict);
