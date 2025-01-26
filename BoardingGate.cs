@@ -7,19 +7,27 @@
 class BoardingGate
 {
     public string GateName { get; set; }
-    public bool SupportsCFFT { get; set; }
     public bool SupportsDDJB { get; set; }
+    public bool SupportsCFFT { get; set; }
     public bool SupportsLWTT { get; set; }
     public Flight Flight { get; set; }
 
     public BoardingGate() { }
 
-    public BoardingGate(string name, bool supportsCFFT, bool supportsDDJB, bool supportsWTT, Flight flight)
+    public BoardingGate(string gateName, bool supportsDDJB, bool supportsCFFT, bool supportsLWTT)
+    {
+        GateName = gateName;
+        SupportsDDJB = supportsDDJB;
+        SupportsCFFT = supportsCFFT;
+        SupportsLWTT = supportsLWTT;
+    }
+
+    public BoardingGate(string name, bool supportsDDJB, bool supportsCFFT, bool supportsLWTT, Flight flight)
     {
         GateName = name;
-        SupportsCFFT = supportsCFFT;
         SupportsDDJB = supportsDDJB;
-        SupportsLWTT = supportsWTT;
+        SupportsCFFT = supportsCFFT;
+        SupportsLWTT = supportsLWTT;
         Flight = flight;
     }
 
