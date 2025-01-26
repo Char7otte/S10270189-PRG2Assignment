@@ -19,13 +19,37 @@ void LoadAirlineandBoardingGateData(Dictionary<string, Airline> airlinesDict, Di
             //Read the line
             string airlineName = line.Split(',')[0];
             string airlineCode = line.Split(',')[1];
-            
+
             //Create a new airline object
             Airline airline = new(airlineName, airlineCode);
             airlinesDict.Add(airlineCode, airline);
 
         }
         Console.WriteLine($"{lineCount} Airlines Loaded!");
+    }
+    using (sr2)
+    {
+        Console.WriteLine("Loading Boarding Gates...");
+
+        sr2.ReadLine(); //Skip header line
+
+        string line;
+        int lineCount = 0;
+
+        while ((line = sr2.ReadLine()) != null)
+        {
+            lineCount++;
+            //Read the line
+            string boardingGate = line.Split(',')[0];
+            bool CFFTbool = bool.Parse(line.Split(',')[1]);
+            bool DDJBbool = bool.Parse(line.Split(',')[2]);
+            bool LWTTbool = bool.Parse(line.Split(',')[3]);
+
+            //Create a new boarding gate object
+            BoardingGate boardingGateobj = new(boardingGate, CFFTbool, DDJBbool, LWTTbool, null);
+            boardingGatesDict.Add(boardingGate, boardingGateobj);
+        }
+        Console.WriteLine($"{lineCount} Boarding Gates Loaded!");
     }
 }
 
@@ -116,4 +140,4 @@ void ListFlights(Dictionary<string, Flight> flightsDict)
 
 //LoadFlights(flightsDict, new("flights.csv"));
 //ListFlights(flightsDict);
-LoadAirlineandBoardingGateData(airlinesDict, boardingGatesDict, new("airlines.csv"), new("boardinggates,csv"));
+LoadAirlineandBoardingGateData(airlinesDict, boardingGatesDict, new("airlines.csv"), new("boardinggates.csv"));
