@@ -138,6 +138,6 @@ void ListFlights(Dictionary<string, Flight> flightsDict)
     }
 }
 
-//LoadFlights(flightsDict, new("flights.csv"));
-//ListFlights(flightsDict);
 LoadAirlineandBoardingGateData(airlinesDict, boardingGatesDict, new("airlines.csv"), new("boardinggates.csv"));
+LoadFlights(flightsDict, new("flights.csv"));
+ListFlights(flightsDict);
