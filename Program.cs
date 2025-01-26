@@ -142,4 +142,52 @@ LoadAirlineandBoardingGateData(airlinesDict, boardingGatesDict, new("airlines.cs
 LoadFlights(flightsDict, new("flights.csv"));
 Console.WriteLine("\n\n\n\n\n");
 
-ListFlights(flightsDict);
+Console.WriteLine("=============================================\n" +
+                  "Welcome to Changi Airport Terminal 5\n" +
+                  "=============================================\n" +
+                  "1. List All Flights\n" +
+                  "2. List Boarding Gates\n" +
+                  "3. Assign a Boarding Gate to a Flight\n" +
+                  "4. Create Flight\n" +
+                  "5. Display Airline Flights\n" +
+                  "6. Modify Flight Details\n" +
+                  "7. Display Flight Schedule\n" +
+                  "0. Exit\n\n" +
+                  "Please select your option:");
+
+int userInput = int.Parse(Console.ReadLine());
+
+if (userInput == 1)
+{
+    ListFlights(flightsDict);   
+}
+else if (userInput == 2)
+{
+    
+}
+else if (userInput == 3)
+{
+    
+}
+else if (userInput == 4)
+{
+    
+}
+else if (userInput == 5)
+{
+    
+}
+else if (userInput == 6)
+{
+    
+}
+else if (userInput == 7)
+{
+    
+}
+else if (userInput == 0)
+{
+    Console.Write("Goodbye!");
+    Console.ReadLine();
+    Environment.Exit(0);
+}
