@@ -124,7 +124,7 @@ void ListFlights(Dictionary<string, Flight> flightsDict)
         "List of Flights for Changi Airport Terminal 5\r\n" +
         "=============================================");
 
-    string stringFormat = "{0,-20} {1,-20} {2,-20} {3,-20}\n{4, -20}";
+    string stringFormat = "{0,-20} {1,-20} {2,-20} {3,-20}{4, -20}\n{5, -20}";
 
     Console.WriteLine(stringFormat, "Flight Number", "Airline Name", "Origin", "Destination", "Expected", "Departure/Arrival Time");
 
