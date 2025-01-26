@@ -174,11 +174,17 @@ void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<strin
         Console.ReadLine();
         return;
     }
-
-    Console.WriteLine(flightsDict[flightNumber].ToString());
-    Console.WriteLine(boardingGatesDict[boardingGate].ToString());
-
-    boardingGatesDict[boardingGate].Flight = flightsDict[flightNumber];
+    
+    Flight flight = flightsDict[flightNumber];
+    BoardingGate boardingGate = boardingGatesDict[boardingGateName];
+    if (boardingGate.Flight != null)
+    {
+        Console.WriteLine($"Boarding Gate {boardingGate} is already assigned to {boardingGate.Flight}.");
+    }
+    
+    Console.WriteLine(flight);
+    Console.WriteLine(boardingGate);
+    boardingGate.Flight = flightsDict[flightNumber];
 
     string stringInput = InputForString("Would you like to update the status of the flight? (Y/N)",
         "How did you break this").ToUpper();
