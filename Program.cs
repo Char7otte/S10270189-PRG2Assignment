@@ -159,9 +159,9 @@ void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<strin
                       "=============================================");
 
 
-    string flightNumber = InputForString("Enter Flight Number:", "how did you mess up the flight number");
-    string boardingGate = InputForString("Enter Boarding Gate Name:", "Boarding gate input broke");
-
+    string flightNumber = InputForString("Enter Flight Number:", "how did you mess up the flight number").ToUpper();
+    string boardingGateName = InputForString("Enter Boarding Gate Name:", "Boarding gate input broke").ToUpper();
+    
     if (!flightsDict.ContainsKey(flightNumber))
     {
         Console.WriteLine("FLIGHT NUMBER NOT FOUND!");
@@ -181,8 +181,7 @@ void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<strin
     boardingGatesDict[boardingGate].Flight = flightsDict[flightNumber];
 
     string stringInput = InputForString("Would you like to update the status of the flight? (Y/N)",
-        "How did you break this");
-    stringInput = stringInput.ToUpper();
+        "How did you break this").ToUpper();
 
     if (stringInput == "N")
     {
