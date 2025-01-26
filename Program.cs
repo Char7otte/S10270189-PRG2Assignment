@@ -165,8 +165,17 @@ while (true)
                       "0. Exit\n\n" +
                       "Please select your option:");
 
-    
-    int userInput = int.Parse(Console.ReadLine());
+    int userInput = 0;
+    try
+    {
+        userInput = int.Parse(Console.ReadLine());
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e);
+        Console.ReadLine();
+        continue;
+    }
 
     if (userInput == 1)
     {
