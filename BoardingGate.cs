@@ -30,7 +30,10 @@ class BoardingGate
 
     public override string ToString()
     {
-        return base.ToString();
+        return $"Boarding Gate Name: {GateName}\n" +
+               $"Supports DDJB: {SupportsDDJB}\n" +
+               $"Supports CFFT: {SupportsCFFT}\n" +
+               $"Supports LWTT: {SupportsLWTT}";
     }
 
 }
