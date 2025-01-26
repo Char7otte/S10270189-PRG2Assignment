@@ -45,8 +45,8 @@ void LoadAirlineAndBoardingGateData(
             lineCount++;
             //Read the line
             string boardingGate = line.Split(',')[0];
-            bool CFFTBool = bool.Parse(line.Split(',')[1]);
-            bool DDJBBool = bool.Parse(line.Split(',')[2]);
+            bool DDJBBool = bool.Parse(line.Split(',')[1]);
+            bool CFFTBool = bool.Parse(line.Split(',')[2]);
             bool LWTTBool = bool.Parse(line.Split(',')[3]);
 
             //Create a new boarding gate object
@@ -168,8 +168,7 @@ void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<strin
         Console.ReadLine();
         return;
     }
-
-    if (!boardingGatesDict.ContainsKey(boardingGate))
+    else if (!boardingGatesDict.ContainsKey(boardingGateName))
     {
         Console.WriteLine("BOARDING GATE NOT FOUND!");
         Console.ReadLine();
