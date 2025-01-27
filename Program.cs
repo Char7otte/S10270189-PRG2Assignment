@@ -117,12 +117,13 @@ void LoadFlights(Dictionary<string, Flight> flightsDict, StreamReader sr)
 
 //Feature #3: List Flights
 Dictionary<string, string> specialRequestFlightsDict = new();
-void ListFlights(Dictionary<string, Flight> flightsDict)
+void ListFlights(Dictionary<string, Flight> flightsDict, Dictionary<string, Airline> airlinesDict)
 {
     Console.WriteLine("" +
         "=============================================\r\n" +
         "List of Flights for Changi Airport Terminal 5\r\n" +
         "=============================================");
+
 
     string stringFormat = "{0,-20} {1,-20} {2,-20} {3,-20}{4, -20}\n{5, -20}";
 
@@ -146,8 +147,6 @@ void ListFlights(Dictionary<string, Flight> flightsDict)
         }
 
         Console.WriteLine(stringFormat, flightNumber, airlineName, origin, destination, date, time);
-
-    }
 }
 
 //Feature #5: Assign boarding gate to flight
