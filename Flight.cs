@@ -49,7 +49,10 @@ abstract class Flight
     }
     public override string ToString()
     {
-        return $"Flight Number: {FlightNumber}\nOrigin: {Origin}\nDestination: {Destination}\nExpected Time: {ExpectedTime}\nStatus: {Status}";
+        return $"Flight Number: {FlightNumber}\n" +
+               $"Origin: {Origin}\n" +
+               $"Destination: {Destination}\n" +
+               $"Expected Time: {ExpectedTime}\n";
     }
 }
 

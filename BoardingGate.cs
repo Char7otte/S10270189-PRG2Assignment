@@ -6,20 +6,20 @@
 
 class BoardingGate
 {
-    public string GetName { get; set; }
+    public string GateName { get; set; }
     public bool SupportsCFFT { get; set; }
     public bool SupportsDDJB { get; set; }
-    public bool SupportsWTT { get; set; }
+    public bool SupportsLWTT { get; set; }
     public Flight Flight { get; set; }
 
     public BoardingGate() { }
 
     public BoardingGate(string name, bool supportsCFFT, bool supportsDDJB, bool supportsWTT, Flight flight)
     {
-        GetName = name;
+        GateName = name;
         SupportsCFFT = supportsCFFT;
         SupportsDDJB = supportsDDJB;
-        SupportsWTT = supportsWTT;
+        SupportsLWTT = supportsWTT;
         Flight = flight;
     }
 
@@ -30,7 +30,10 @@ class BoardingGate
 
     public override string ToString()
     {
-        return base.ToString();
+        return $"Boarding Gate Name: {GateName}\n" +
+               $"Supports DDJB: {SupportsDDJB}\n" +
+               $"Supports CFFT: {SupportsCFFT}\n" +
+               $"Supports LWTT: {SupportsLWTT}";
     }
 
 }

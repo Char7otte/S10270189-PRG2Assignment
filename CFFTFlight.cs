@@ -40,5 +40,14 @@ class CFFTFlight : Flight
         }
 
     }
+
+    public override string ToString()
+    {
+        return $"Flight Number: {FlightNumber}\n" +
+               $"Origin: {Origin}\n" +
+               $"Destination: {Destination}\n" +
+               $"Expected Time: {ExpectedTime}\n" +
+               $"Special Request Code: CFFT";
+    }
 }
 
