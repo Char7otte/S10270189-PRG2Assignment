@@ -717,6 +717,105 @@ void AutoAssignFlights(Dictionary<string, Flight> flightsDict, Dictionary<string
     Console.WriteLine($"{processedCount} flight(s) have been processed. {assignedCount} flight(s) have been assigned.");
 }
 
+//Advanced Feature B: Display the total fee per airline for the day (LARRY CHIA)
+void DisplayTotalFeePerAirline()
+{
+    // Check that all flights have been assigned boarding gates
+    foreach (var flight in flightsDict.Values)
+    {
+        if (!boardingGatesDict.Values.Any(gate => gate.Flight == flight))
+        {
+            Console.WriteLine("There are flights that have not been assigned boarding gates. Please assign all flights before running this feature again.");
+            return;
+        }
+    }
+
+    double totalFees = 0;
+    double totalDiscounts = 0;
+
+    foreach (var airline in airlinesDict.Values)
+    {
+        double airlineFees = 0;
+        double airlineDiscounts = 0;
+
+        foreach (var flight in airline.Flights.Values)
+        {
+            double flightFee = 300; // Boarding Gate Base Fee
+
+            if (flight.Origin == "Singapore (SIN)")
+            {
+                flightFee += 800;
+            }
+            else if (flight.Destination == "Singapore (SIN)")
+            {
+                flightFee += 500;
+            }
+
+            if (flight is LWTTFlight)
+            {
+                flightFee += 500;
+            }
+            else if (flight is DDJBFlight)
+            {
+                flightFee += 300;
+            }
+            else if (flight is CFFTFlight)
+            {
+                flightFee += 150;
+            }
+            else
+            {
+                flightFee += 50; // Additional fee for flights not indicating any special request codes part of promotional discount
+            }
+
+            airlineFees += flightFee;
+        }
+
+        // Apply discounts based on promotional conditions
+        foreach (var flight in airline.Flights.Values)
+        {
+            TimeOnly flightTime = TimeOnly.FromDateTime(flight.ExpectedTime);
+            if (flightTime < new TimeOnly(11, 0) || flightTime > new TimeOnly(21, 0))
+            {
+                airlineDiscounts += 110;
+            }
+
+            if (flight.Origin == "Dubai (DXB)" || flight.Origin == "Bangkok (BKK)" || flight.Origin == "Tokyo (NRT)")
+            {
+                airlineDiscounts += 25;
+            }
+        }
+        //For every 3 flights , the airline gets a $350 discount
+        airlineDiscounts += (airline.Flights.Count / 3) * 350;
+
+        if (airline.Flights.Count > 5)
+        {
+            double additionalDiscount = airlineFees * 0.03; // 3% off the total bill before any other discounts
+            airlineDiscounts += additionalDiscount;
+        }
+
+        double finalAirlineFee = airlineFees - airlineDiscounts;
+        totalFees += airlineFees;
+        totalDiscounts += airlineDiscounts;
+
+        Console.WriteLine($"Airline: {airline.Name}");
+        Console.WriteLine($"Original Subtotal: ${airlineFees}");
+        Console.WriteLine($"Discounts: -${airlineDiscounts}");
+        Console.WriteLine($"Final Total: ${finalAirlineFee}");
+        Console.WriteLine();
+    }
+
+    double finalTotalFees = totalFees - totalDiscounts;
+    double discountPercentage = (totalDiscounts / totalFees) * 100;
+
+    Console.WriteLine("=============================================");
+    Console.WriteLine("Summary of All Airlines");
+    Console.WriteLine("=============================================");
+    Console.WriteLine($"Total Fees: ${totalFees}");
+    Console.WriteLine($"Total Discounts: -${totalDiscounts}");
+    Console.WriteLine($"Final Total Fees: ${finalTotalFees}");
+    Console.WriteLine($"Discount Percentage: {discountPercentage}%");
+}
 
 LoadAirlineAndBoardingGateData(airlinesDict, boardingGatesDict, new("airlines.csv"), new("boardinggates.csv"));
 LoadFlights(flightsDict, new("flights.csv"));
@@ -735,6 +834,7 @@ while (true)
                       "6. Modify Flight Details\n" +
                       "7. Display Flight Schedule\n" +
                       "8. Automatically assign flights to boarding gates\n" +
+                      "9. Display Total Fee per Airline\n" +
                       "0. Exit\n\n" +
                       "Please select your option:");
 
@@ -781,6 +881,10 @@ while (true)
     else if (userInput == 8)
     {
         AutoAssignFlights(flightsDict, boardingGatesDict);
+    }
+    else if (userInput == 9)
+    {
+        DisplayTotalFeePerAirline();
     }
     else if (userInput == 0)
     {
