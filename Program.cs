@@ -660,11 +660,14 @@ void AutoAssignFlights(Dictionary<string, Flight> flightsDict, Dictionary<string
     
     List<BoardingGate> gateList = boardingGatesDict.Values.ToList();
     List<BoardingGate> filteredGateList = new();
+    
+    int alreadyAssignedFlightCount = 0;
 
     foreach (BoardingGate boardingGate in gateList)
     {
         if (boardingGate.Flight != null)
         {
+            alreadyAssignedFlightCount++;
             flightList.Remove(boardingGate.Flight);
             continue;
         }
@@ -715,6 +718,9 @@ void AutoAssignFlights(Dictionary<string, Flight> flightsDict, Dictionary<string
     }
     
     Console.WriteLine($"{processedCount} flight(s) have been processed. {assignedCount} flight(s) have been assigned.");
+    
+    double autoProcessedPercentage = (double)processedCount / alreadyAssignedFlightCount * 100;
+    Console.WriteLine($"{autoProcessedPercentage}% flights were processed automatically as compared to manually.");
 }
 
 //Advanced Feature B: Display the total fee per airline for the day (LARRY CHIA)
@@ -737,7 +743,7 @@ void DisplayTotalFeePerAirline()
     {
         double airlineFees = 0;
         double airlineDiscounts = 0;
-
+        
         foreach (var flight in airline.Flights.Values)
         {
             double flightFee = 300; // Boarding Gate Base Fee
