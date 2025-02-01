@@ -4,7 +4,7 @@
 // Partner Name	: Huang Yangmile
 //==========================================================
 
-abstract class Flight
+abstract class Flight :IComparable<Flight>
 {
     public string FlightNumber { get; set; }
 
@@ -53,6 +53,11 @@ abstract class Flight
                $"Origin: {Origin}\n" +
                $"Destination: {Destination}\n" +
                $"Expected Time: {ExpectedTime}\n";
+    }
+
+    public int CompareTo(Flight other)
+    {
+        return ExpectedTime.CompareTo(other.ExpectedTime);
     }
 }
 
