@@ -1,4 +1,6 @@
 ﻿//Feature #1: Load airline and boarding gate data from file
+using System.Globalization;
+
 Dictionary<string, Airline> airlinesDict = new();
 Dictionary<string, BoardingGate> boardingGatesDict = new();
 void LoadAirlineAndBoardingGateData(
@@ -269,7 +271,8 @@ void DisplayFullDetailsFromAirline()
     }
 }
 
-//Feature #8 : Modify flight details (LARRY CHIA)
+// Existing code...
+
 void ModifyFlightDetails()
 {
     Console.WriteLine("=============================================\n" +
@@ -282,7 +285,7 @@ void ModifyFlightDetails()
         Console.WriteLine($"{airline.Code,-17}{airline.Name}");
     }
 
-    string airlineCode = InputForString("Enter Airline Code:").ToUpper();
+    string airlineCode = InputForString("Enter Airline Code:", "how did you mess up the airline code").ToUpper();
     if (!airlinesDict.ContainsKey(airlineCode))
     {
         Console.WriteLine("AIRLINE CODE NOT FOUND!");
@@ -292,7 +295,7 @@ void ModifyFlightDetails()
 
     string AirlineName = airlinesDict[airlineCode].Name;
     Console.WriteLine($"List of Flights for {AirlineName}");
-    
+
     string stringFormat = "{0,-20} {1,-20} {2,-20} {3,-20}{4, -20}\n{5, -20}";
     Console.WriteLine(stringFormat, "Flight Number", "Airline Name", "Origin", "Destination", "Expected",
         "Departure/Arrival Time");
@@ -325,7 +328,7 @@ void ModifyFlightDetails()
         return;
     }
     Console.WriteLine("1. Modify Flight\n" +
-                      "2. Delete Flight\n"   +
+                      "2. Delete Flight\n" +
                       "Choose an option: ");
     int choice = int.Parse(Console.ReadLine());
 
@@ -355,7 +358,7 @@ void ModifyFlightDetails()
                     Console.Write("Enter new Expected Time (dd/mm/yyyy hh:mm): ");
                     string input = Console.ReadLine();
                     string format = "d/M/yyyy H:mm";
-                    DateTime newExpectedTime = DateTime.ParseExact(input, format, CultureInfo.InvariantCulture);
+                    DateTime newExpectedTime = DateTime.ParseExact(input, format, CultureInfo.InvariantCulture); //Tells the parser to use standard formats regardless of the computer's regional settings
                     flight.ExpectedTime = newExpectedTime;
 
                     Console.WriteLine("Flight updated!");
