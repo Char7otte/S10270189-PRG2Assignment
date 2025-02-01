@@ -209,7 +209,7 @@ void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<strin
         switch (stringInput)
         {
             case "N":
-                Console.WriteLine($"Flight {flightNumber} has been assigned to Boarding Gate {boardingGate}!");
+                Console.WriteLine($"Flight {flightNumber} has been assigned to Boarding Gate {boardingGate.GateName}!");
                 return;
             case "Y":
                 loopContinue = false;
