@@ -163,53 +163,94 @@ void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<strin
                       "Assign a Boarding Gate to a Flight\n" +
                       "=============================================");
 
+    string flightNumber = "";
+    string boardingGateName = "";
 
-    string flightNumber = InputForString("Enter Flight Number:", "how did you mess up the flight number").ToUpper();
-    string boardingGateName = InputForString("Enter Boarding Gate Name:", "Boarding gate input broke").ToUpper();
-    
-    if (!flightsDict.ContainsKey(flightNumber))
+    while (true)
     {
-        Console.WriteLine("FLIGHT NUMBER NOT FOUND!");
-        Console.ReadLine();
-        return;
+        flightNumber = InputForString("Enter Flight Number:").ToUpper();
+
+        if (!flightsDict.ContainsKey(flightNumber))
+        {
+            Console.WriteLine("FLIGHT NUMBER NOT FOUND!");
+            Console.ReadLine();
+            continue;
+        }
+
+        break;
     }
-    else if (!boardingGatesDict.ContainsKey(boardingGateName))
+
+    while (true) 
     {
-        Console.WriteLine("BOARDING GATE NOT FOUND!");
-        Console.ReadLine();
-        return;
+        boardingGateName = InputForString("Enter Boarding Gate Name:").ToUpper();
+        
+        if (!boardingGatesDict.ContainsKey(boardingGateName))
+        {
+            Console.WriteLine("BOARDING GATE NOT FOUND!");
+            Console.ReadLine();
+            continue;
+        }
+
+        break;
     }
     
     Flight flight = flightsDict[flightNumber];
     BoardingGate boardingGate = boardingGatesDict[boardingGateName];
-    if (boardingGate.Flight != null)
-    {
-        Console.WriteLine($"Boarding Gate {boardingGate} is already assigned to {boardingGate.Flight}.");
-    }
+    boardingGate.Flight = flight;
     
     Console.WriteLine(flight);
     Console.WriteLine(boardingGate);
-    boardingGate.Flight = flightsDict[flightNumber];
-
-    string stringInput = InputForString("Would you like to update the status of the flight? (Y/N)",
-        "How did you break this").ToUpper();
-
-    if (stringInput == "N")
+    
+    loopContinue = true;
+    while (loopContinue)
     {
-        return;
+        string stringInput = InputForString("Would you like to update the status of the flight? (Y/N)").ToUpper();
+
+        switch (stringInput)
+        {
+            case "N":
+                Console.WriteLine($"Flight {flightNumber} has been assigned to Boarding Gate {boardingGate}!");
+                return;
+            case "Y":
+                loopContinue = false;
+                continue;
+            default:
+                Console.WriteLine("Please choose Y or N.");
+                Console.ReadLine();
+                break;
+        }
     }
-    else if (stringInput != "Y")
+
+    loopContinue = true;
+    while (loopContinue)
     {
-        Console.WriteLine("Invalid input");
-        return;
+        Console.WriteLine("1. Delayed\n" +
+                          "2. Boarding\n" +
+                          "3. On Time");
+        int intInput = InputForInt("Please select the new status of the flight:", "how");
+        
+        switch (intInput)
+        {
+            case 1:
+                loopContinue = false;
+                flight.Status = "Delayed";
+                break;
+            case 2:
+                loopContinue = false;
+                flight.Status = "Boarding";
+                break;
+            case 3:
+                loopContinue = false;
+                flight.Status = "On Time";
+                break;
+            default:
+                Console.WriteLine("Please select one of the 3 options.");
+                Console.ReadLine();
+                break;
+        }
     }
-
-    Console.WriteLine("1. Delayed\n" +
-                      "2. Boarding\n" +
-                      "3. On Time");
-    int intInput = InputForInt("Please select the new status of the flight:", "how");
-
-    Console.WriteLine($"Flight {flightNumber} has been assigned to Boarding Gate {boardingGate}!");
+    
+    Console.WriteLine($"Flight {flightNumber} has been set to '{flight.Status}'.");
 }
 
 LoadAirlineAndBoardingGateData(airlinesDict, boardingGatesDict, new("airlines.csv"), new("boardinggates.csv"));
