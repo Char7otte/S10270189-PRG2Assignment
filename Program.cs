@@ -95,30 +95,13 @@ void LoadFlights(Dictionary<string, Flight> flightsDict, StreamReader sr)
 
             //Create a new flight object
             //Request Codes: LWTT, DDJB, CFFT
-            if (requestCode == "")
+            Flight newFlight = requestCode switch //God bless these things
             {
-                NORMFlight newNormFlight = new(flightNumber, origin, destination, expectedTime);
-                flightsDict.Add(flightNumber, newNormFlight);
-            }
-            else if (requestCode == "LWTT")
-            {
-                LWTTFlight newLWTTFlight = new(flightNumber, origin, destination, expectedTime);
-                flightsDict.Add(flightNumber, newLWTTFlight);
-            }
-            else if (requestCode == "DDJB")
-            {
-                DDJBFlight newDDJBFlight = new(flightNumber, origin, destination, expectedTime);
-                flightsDict.Add(flightNumber, newDDJBFlight);
-            }
-            else if (requestCode == "CFFT")
-            {
-                CFFTFlight newCFFTFlight = new(flightNumber, origin, destination, expectedTime);
-                flightsDict.Add(flightNumber, newCFFTFlight);
-            }
-            else
-            {
-                Console.WriteLine($"ERROR WHILE CREATING FLIGHT OBJECT, SOMETHING WENT WRONG WITH FLIGHT {flightNumber} WITH REQUEST CODE {requestCode}");
-            }
+                "" => new NORMFlight(flightNumber, origin, destination, expectedTime),
+                "DDJB" => new DDJBFlight(flightNumber, origin, destination, expectedTime),
+                "CFFT" => new CFFTFlight(flightNumber, origin, destination, expectedTime),
+                "LWTT" => new LWTTFlight(flightNumber, origin, destination, expectedTime)
+            };
         }
 
         Console.WriteLine($"{lineCount} Flights Loaded!");
@@ -349,29 +332,17 @@ void CreateNewFlight(Dictionary<string, Flight> flightsDict, Dictionary<string, 
         
         Console.WriteLine("Invalid Special Request Code. Please try again.");
     }
-    
+
     //Surely, there won't be any errors here since we've checked all the inputs already <========== Clueless
-    if (specialRequestCode == "NONE")
+    Flight newFlight = specialRequestCode switch //have you heard about our lord and saviour, arrow expressions?
     {
-        NORMFlight newNORMFlight = new NORMFlight(flightNumber, origin, destination, departureTime);
-        flightsDict.Add(flightNumber, newNORMFlight);
-    }
-    if (specialRequestCode == "DDJB")
-    {
-        DDJBFlight newDDJBFlight = new DDJBFlight(flightNumber, origin, destination, departureTime);
-        flightsDict.Add(flightNumber, newDDJBFlight);
-    }
-    if (specialRequestCode == "CFTT")
-    {
-        CFFTFlight newCFFTFlight = new CFFTFlight(flightNumber, origin, destination, departureTime);
-        flightsDict.Add(flightNumber, newCFFTFlight);
-    }
-    if (specialRequestCode == "LWTT")
-    {
-        LWTTFlight newLWTTFlight = new LWTTFlight(flightNumber, origin, destination, departureTime);
-        flightsDict.Add(flightNumber, newLWTTFlight);
-    }
-    
+        "NONE" => new NORMFlight(flightNumber, origin, destination, departureTime),
+        "DDJB" => new DDJBFlight(flightNumber, origin, destination, departureTime),
+        "CFFT" => new CFFTFlight(flightNumber, origin, destination, departureTime),
+        "LWTT" => new LWTTFlight(flightNumber, origin, destination, departureTime),
+    };
+
+    flightsDict.Add(newFlight.FlightNumber, newFlight);
     Console.WriteLine($"Flight {flightNumber} has been added!");
 }
 
@@ -676,7 +647,7 @@ while (true)
     }
     else if (userInput == 4)
     {
-        CreateNewFlight(flightsDict);
+        CreateNewFlight(flightsDict, airlinesDict);
     }
     else if (userInput == 5)
     {
