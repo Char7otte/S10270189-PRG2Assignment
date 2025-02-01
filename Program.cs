@@ -162,15 +162,24 @@ void ListBoardingGates(Dictionary<string, BoardingGate> boardingGatesDict)
     Console.WriteLine("=============================================\n" +
                       "List of Boarding Gates\n" +
                       "=============================================");
-    string stringFormat = "{0,-20} {1,-20} {2,-20} {3,-20}";
-    Console.WriteLine(stringFormat, "Boarding Gate", "CFFT", "DDJB", "LWTT");
+
+    string stringFormat = "{0,-20} {1,-20} {2,-20} {3,-20} {4,-20}";
+    Console.WriteLine(stringFormat, "Boarding Gate", "DDJB", "CFFT", "LWTT", "Flight Number");
     foreach (var kvp in boardingGatesDict)
     {
         BoardingGate gate = kvp.Value;
-        Console.WriteLine(stringFormat, gate.GateName, gate.SupportsCFFT, gate.SupportsDDJB, gate.SupportsLWTT);
+
+        if (gate.Flight == null)
+        {
+            Console.WriteLine(stringFormat, gate.GateName, gate.SupportsDDJB, gate.SupportsCFFT, gate.SupportsLWTT, "");
+        }
+        else
+        {
+            Console.WriteLine(stringFormat, gate.GateName, gate.SupportsDDJB, gate.SupportsCFFT, gate.SupportsLWTT,
+                gate.Flight.FlightNumber);
+        }
     }
 }
-
 
 //Feature #5: Assign boarding gate to flight
 void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<string, BoardingGate> boardingGatesDict)
