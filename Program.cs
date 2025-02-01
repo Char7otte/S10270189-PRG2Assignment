@@ -692,7 +692,7 @@ void AutoAssignFlights(Dictionary<string, Flight> flightsDict, Dictionary<string
 
         if (flightToAssign is NORMFlight)
         {
-            gateToAssign = filteredGateList.Find(gate => gate.SupportsDDJB && gate.SupportsCFFT && gate.SupportsLWTT); //God bless arrow functions
+            gateToAssign = filteredGateList.Find(gate => !gate.SupportsDDJB && !gate.SupportsCFFT && !gate.SupportsLWTT); //God bless arrow functions
         }
         else if (flightToAssign is DDJBFlight)
         {
