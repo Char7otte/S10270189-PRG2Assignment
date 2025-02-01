@@ -1,4 +1,9 @@
-﻿//Feature #1: Load airline and boarding gate data from file
+﻿bool loopContinue = true; //TO BE FOR USE IN WHILE (TRUE) LOOPS IF THERE IS A
+                          //NESTED SWITCH STATEMENT OR WTV THAT PREVENTS CONTINUE FROM BEING USED
+
+
+
+//Feature #1: Load airline and boarding gate data from file
 Dictionary<string, Airline> airlinesDict = new();
 Dictionary<string, BoardingGate> boardingGatesDict = new();
 void LoadAirlineAndBoardingGateData(
