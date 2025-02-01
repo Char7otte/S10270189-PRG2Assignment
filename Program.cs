@@ -190,7 +190,7 @@ void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<strin
         {
             flightNumber = InputForString("Enter Flight Number:").ToUpper();
 
-            if (flightsDict.ContainsKey(flightNumber))
+            if (!flightsDict.ContainsKey(flightNumber))
             {
                 Console.WriteLine("FLIGHT NUMBER NOT FOUND!");
                 Console.ReadLine();
