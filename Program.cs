@@ -282,155 +282,85 @@ void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<strin
 //Feature #6: Create a new flight (HUANG YANGMILE)
 void CreateNewFlight(Dictionary<string, Flight> flightsDict, Dictionary<string, Airline> airlinesDict)
 {
-    string flightNumber = "";
-    //Get flight number & make sure it's valid by checking if it's found in airlinesDict
-    while (true)
+    loopContinue = true;
+    while (loopContinue)
     {
-        Console.Write("Enter Flight Number: ");
-        flightNumber = Console.ReadLine().ToUpper();
-
-        string airlineCode = $"{flightNumber[0]}{flightNumber[1]}";
-
-        if (!airlinesDict.ContainsKey(airlineCode))
+        string flightNumber = "";
+        //Get flight number & make sure it's valid by checking if it's found in airlinesDict
+        while (true)
         {
-            Console.WriteLine("Airline code not found. Please try again.");
+            Console.Write("Enter Flight Number: ");
+            flightNumber = Console.ReadLine().ToUpper();
+
+            string airlineCode = $"{flightNumber[0]}{flightNumber[1]}";
+
+            if (!airlinesDict.ContainsKey(airlineCode))
+            {
+                Console.WriteLine("Airline code not found. Please try again.");
+                Console.ReadLine();
+                continue;
+            }
+
+            break;
+        }
+
+        //Get the rest of the inputs.
+        string origin = InputForStringNoNewLine("Enter Origin: ");
+        string destination = InputForStringNoNewLine("Enter Destination: ");
+        DateTime departureTime;
+        string specialRequestCode;
+
+        while (true)
+        {
+            try
+            {
+                Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
+                string input = Console.ReadLine();
+                string format = "d/M/yyyy H:mm";
+                departureTime = DateTime.ParseExact(input, format, CultureInfo.InvariantCulture);
+                break;
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Please enter a valid date and time. For example, '13/1/2025 15:40'.");
+            }
+        }
+
+        while (true)
+        {
+            specialRequestCode = InputForStringNoNewLine("Enter Special Request Code (CFFT/DDJB/LWTT/None): ").ToUpper();
+            if (specialRequestCode == "CFFT" || specialRequestCode == "DDJB" || specialRequestCode == "LWTT" ||
+                specialRequestCode == "NONE")
+            {
+                break;
+            }
+            
+            Console.WriteLine("Invalid Special Request Code. Please try again.");
+        }
+
+        //Surely, there won't be any errors here since we've checked all the inputs already <========== Clueless
+        Flight newFlight = specialRequestCode switch //have you heard about our lord and saviour, arrow expressions?
+        {
+            "NONE" => new NORMFlight(flightNumber, origin, destination, departureTime),
+            "DDJB" => new DDJBFlight(flightNumber, origin, destination, departureTime),
+            "CFFT" => new CFFTFlight(flightNumber, origin, destination, departureTime),
+            "LWTT" => new LWTTFlight(flightNumber, origin, destination, departureTime),
+        };
+
+        flightsDict.Add(newFlight.FlightNumber, newFlight);
+        Console.WriteLine($"Flight {flightNumber} has been added!");
+
+        while (true)
+        {
+            string addAnotherFlight = InputForString("Would you like to add another flight? (Y/N)").ToUpper();
+
+            if (addAnotherFlight == "N") return;
+            if (addAnotherFlight == "Y") break;
+            Console.WriteLine("Please enter Y or N.");
             Console.ReadLine();
-            continue;
-        }
-
-        break;
-    }
-
-    //Get the rest of the inputs.
-    string origin = InputForStringNoNewLine("Enter Origin: ");
-    string destination = InputForStringNoNewLine("Enter Destination: ");
-    DateTime departureTime;
-    string specialRequestCode;
-
-    while (true)
-    {
-        try
-        {
-            Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
-            string input = Console.ReadLine();
-            string format = "d/M/yyyy H:mm";
-            departureTime = DateTime.ParseExact(input, format, CultureInfo.InvariantCulture);
-            break;
-        }
-        catch (Exception)
-        {
-            Console.WriteLine("Please enter a valid date and time. For example, '13/1/2025 15:40'.");
         }
     }
-
-    while (true)
-    {
-        specialRequestCode = InputForStringNoNewLine("Enter Special Request Code (CFFT/DDJB/LWTT/None): ").ToUpper();
-        if (specialRequestCode == "CFFT" || specialRequestCode == "DDJB" || specialRequestCode == "LWTT" ||
-            specialRequestCode == "NONE")
-        {
-            break;
-        }
-        
-        Console.WriteLine("Invalid Special Request Code. Please try again.");
-    }
-
-    //Surely, there won't be any errors here since we've checked all the inputs already <========== Clueless
-    Flight newFlight = specialRequestCode switch //have you heard about our lord and saviour, arrow expressions?
-    {
-        "NONE" => new NORMFlight(flightNumber, origin, destination, departureTime),
-        "DDJB" => new DDJBFlight(flightNumber, origin, destination, departureTime),
-        "CFFT" => new CFFTFlight(flightNumber, origin, destination, departureTime),
-        "LWTT" => new LWTTFlight(flightNumber, origin, destination, departureTime),
-    };
-
-    flightsDict.Add(newFlight.FlightNumber, newFlight);
-    Console.WriteLine($"Flight {flightNumber} has been added!");
 }
-
-
-// loopContinue = true;
-    // while (loopContinue)
-    // {
-    //     string flightNumber = "";
-    //     while (true)
-    //     {
-    //         try
-    //         {
-    //             Console.Write("Enter Flight Number: ");
-    //             flightNumber = Console.ReadLine().ToUpper();
-    //
-    //             Console.Write("Enter Origin: ");
-    //             string origin = Console.ReadLine();
-    //
-    //             Console.Write("Enter Destination: ");
-    //             string destination = Console.ReadLine();
-    //
-    //             Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
-    //             string input = Console.ReadLine();
-    //             string format = "d/M/yyyy H:mm";
-    //             DateTime departureTime = DateTime.ParseExact(input, format, CultureInfo.InvariantCulture);
-    //
-    //             Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
-    //             string specialRequestCode = Console.ReadLine().ToUpper();
-    //
-    //             if (specialRequestCode == "NONE")
-    //             {
-    //                 NORMFlight newNORMFlight = new NORMFlight(flightNumber, origin, destination, departureTime);
-    //                 flightsDict.Add(flightNumber, newNORMFlight);
-    //                 break;
-    //             }
-    //             if (specialRequestCode == "DDJB")
-    //             {
-    //                 DDJBFlight newDDJBFlight = new DDJBFlight(flightNumber, origin, destination, departureTime);
-    //                 flightsDict.Add(flightNumber, newDDJBFlight);
-    //                 break;
-    //             }
-    //             if (specialRequestCode == "CFTT")
-    //             {
-    //                 CFFTFlight newCFFTFlight = new CFFTFlight(flightNumber, origin, destination, departureTime);
-    //                 flightsDict.Add(flightNumber, newCFFTFlight);
-    //                 break;
-    //             }
-    //             if (specialRequestCode == "LWTT")
-    //             {
-    //                 LWTTFlight newLWTTFlight = new LWTTFlight(flightNumber, origin, destination, departureTime);
-    //                 flightsDict.Add(flightNumber, newLWTTFlight);
-    //                 break;
-    //             }
-    //
-    //             throw new Exception("Invalid request code!");
-    //             
-    //         }
-    //         catch (Exception e)
-    //         {
-    //             Console.WriteLine(e + "Please try again!");
-    //             Console.ReadLine();
-    //         }
-    //     }
-    //     
-    //     Console.WriteLine($"Flight {flightNumber} has been added!");
-    //     
-    //     while (true)
-    //     {
-    //         string addAnotherFlight = InputForString("Would you like to add another flight? (Y/N)").ToUpper();
-    //
-    //         if (addAnotherFlight == "Y")
-    //         {
-    //             break;
-    //         }
-    //         if (addAnotherFlight == "N")
-    //         {
-    //             loopContinue = false;
-    //             break;
-    //         }
-    //     
-    //         Console.WriteLine("Invalid input. Please try again.");
-    //         Console.ReadLine();
-    //     }
-    //     
-    // }
-
 
 //Feature #7: Display full flight details from an airline (LARRY CHIA)
 void DisplayFullDetailsFromAirline()
