@@ -1,12 +1,9 @@
 ﻿// S10270189J Huang Yangmile: Features 2, 3, 5, 6, 9, Advanced (a)
 // S10259006 Larry Chia: Features 1, 4, 7, 8, Advanced (b)
 
-
 using System.Globalization;
 
 bool loopContinue = true; //For use in while (true) loops with nested loops where calling the while loop is difficult.
-
-
 
 //Feature #1: Load airline and boarding gate data from file (LARRY CHIA)
 Dictionary<string, Airline> airlinesDict = new();
@@ -55,12 +52,12 @@ void LoadAirlineAndBoardingGateData(
             lineCount++;
             //Read the line
             string boardingGate = line.Split(',')[0];
-            bool DDJBBool = bool.Parse(line.Split(',')[1]);
-            bool CFFTBool = bool.Parse(line.Split(',')[2]);
-            bool LWTTBool = bool.Parse(line.Split(',')[3]);
+            bool ddjbBool = bool.Parse(line.Split(',')[1]);
+            bool cfftBool = bool.Parse(line.Split(',')[2]);
+            bool lwttBool = bool.Parse(line.Split(',')[3]);
 
             //Create a new boarding gate object
-            BoardingGate boardingGateObj = new(boardingGate, DDJBBool, CFFTBool, LWTTBool);
+            BoardingGate boardingGateObj = new(boardingGate, ddjbBool, cfftBool, lwttBool);
             boardingGatesDict.Add(boardingGate, boardingGateObj);
         }
         Console.WriteLine($"{lineCount} Boarding Gates Loaded!");
@@ -339,7 +336,7 @@ void CreateNewFlight(Dictionary<string, Flight> flightsDict, Dictionary<string, 
         }
 
         //Surely, there won't be any errors here since we've checked all the inputs already <========== Clueless
-        Flight newFlight = specialRequestCode switch //have you heard about our lord and saviour, arrow expressions?
+        Flight newFlight = specialRequestCode switch //have you heard about our lord and saviour, arrow functions?
         {
             "NONE" => new NORMFlight(flightNumber, origin, destination, departureTime),
             "DDJB" => new DDJBFlight(flightNumber, origin, destination, departureTime),
@@ -424,7 +421,7 @@ void ModifyFlightDetails()
         Console.WriteLine($"{airline.Code,-17}{airline.Name}");
     }
 
-    string airlineCode = InputForString("Enter Airline Code:", "how did you mess up the airline code").ToUpper();
+    string airlineCode = InputForString("Enter Airline Code:").ToUpper();
     if (!airlinesDict.ContainsKey(airlineCode))
     {
         Console.WriteLine("AIRLINE CODE NOT FOUND!");
@@ -682,8 +679,6 @@ void AutoAssignFlights(Dictionary<string, Flight> flightsDict, Dictionary<string
     
     Console.WriteLine($"There are {filteredFlightQueue.Count} flights yet to be assigned.");
     Console.WriteLine($"There are {filteredGateList.Count} boarding gates yet to be assigned.");
-    
-    
     
     while (filteredFlightQueue.Count > 0)
     {
