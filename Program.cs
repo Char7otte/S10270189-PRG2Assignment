@@ -281,7 +281,7 @@ while (true)
     Console.ReadLine();
 }
 
-string InputForString(string request, string errorMessage)
+string InputForString(string request, string errorMessage = "Invalid input.")
 {
     while (true)
     {
@@ -299,7 +299,7 @@ string InputForString(string request, string errorMessage)
     }
 }
 
-int InputForInt(string request, string errorMessage)
+int InputForInt(string request, string errorMessage = "Please enter a number matching one of the options.")
 {
     while (true)
     {
