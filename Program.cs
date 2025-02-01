@@ -274,8 +274,7 @@ void DisplayFullDetailsFromAirline()
     }
 }
 
-// Existing code...
-
+//Feautre #8 : Modify flight details (LARRY CHIA)
 void ModifyFlightDetails()
 {
     Console.WriteLine("=============================================\n" +
@@ -527,7 +526,7 @@ while (true)
     }
     else if (userInput == 7)
     {
-
+        ModifyFlightDetails();
     }
     else if (userInput == 0)
     {
