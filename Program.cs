@@ -426,7 +426,56 @@ void DisplayFullDetailsFromAirline()
 
 
 
+//Feature #9: Display scheduled flights in chronological order
+void DisplayFlightSchedule(Dictionary<string, Flight> flightsDict, Dictionary<string, BoardingGate> boardingGatesDict, Dictionary<string, Airline> airlineDict)
+{
+    List<Flight> flightList = flightsDict.Values.ToList();
+    flightList.Sort();
+    
+    Console.WriteLine("=============================================\n" +
+                      "Flight Schedule for Changi Airport Terminal 5\n" +
+                      "=============================================");
+    
+    string stringFormat = "{0,-20} {1,-20} {2,-20} {3,-20}{4, -20}\n{5, -20} {6, -20}";
+    Console.WriteLine(stringFormat, "Flight Number", "Airline Name", "Origin", "Destination", "Expected Departure/Arrival Time", "Status", "Boarding Gate");
+    
+    List<BoardingGate> boardingGatesWithFlights = new();
+    foreach (BoardingGate boardingGate in boardingGatesDict.Values.ToList())
+    {
+        if (boardingGate.Flight != null)
+        {
+            boardingGatesWithFlights.Add(boardingGate);
+        }
+    }
+    
+    foreach (Flight flight in flightList)
+    {
+        string flightNumber = flight.FlightNumber;
+        string origin = flight.Origin;
+        string destination = flight.Destination;
+        DateTime expectedTime = flight.ExpectedTime;
+        string status = flight.Status;
+        string boardingGate = "Unassigned";
 
+        foreach (BoardingGate gate in boardingGatesWithFlights)
+        {
+            if (flight == gate.Flight)
+            {
+                boardingGate = gate.GateName;
+            }
+        }
+        
+        string airlineCode = $"{flightNumber[0]}{flightNumber[1]}";
+        string airlineName = "ERROR";
+
+        if (airlinesDict.ContainsKey(airlineCode))
+        {
+            airlineName = airlinesDict[airlineCode].Name;
+        }
+        
+        Console.WriteLine(stringFormat, flightNumber, airlineName, origin, destination, expectedTime, status, boardingGate);
+    }
+}
 
 
 LoadAirlineAndBoardingGateData(airlinesDict, boardingGatesDict, new("airlines.csv"), new("boardinggates.csv"));
@@ -486,7 +535,7 @@ while (true)
     }
     else if (userInput == 7)
     {
-
+        DisplayFlightSchedule(flightsDict, boardingGatesDict, airlinesDict);
     }
     else if (userInput == 0)
     {
