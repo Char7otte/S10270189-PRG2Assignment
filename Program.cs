@@ -1,11 +1,16 @@
-﻿using System.Globalization;
+﻿/////////////////////////////////////////////////////////////////////////
+/// S10270189J Huang Yangmile: Features 2, 3, 5, 6, 9, Advanced (a) ///
+/// S10259006 Larry Chia: Features 1, 4, 7, 8, Advanced (b)         ///
+/////////////////////////////////////////////////////////////////////////
+
+using System.Globalization;
 
 bool loopContinue = true; //TO BE FOR USE IN WHILE (TRUE) LOOPS IF THERE IS A
                           //NESTED SWITCH STATEMENT OR WTV THAT PREVENTS CONTINUE FROM BEING USED
 
 
 
-//Feature #1: Load airline and boarding gate data from file
+//Feature #1: Load airline and boarding gate data from file (LARRY CHIA)
 Dictionary<string, Airline> airlinesDict = new();
 Dictionary<string, BoardingGate> boardingGatesDict = new();
 void LoadAirlineAndBoardingGateData(
@@ -65,7 +70,7 @@ void LoadAirlineAndBoardingGateData(
 }
 
 
-//Feature #2: Load Flights from file
+//Feature #2: Load Flights from file (HUANG YANGMILE)
 Dictionary<string, Flight> flightsDict = new();
 void LoadFlights(Dictionary<string, Flight> flightsDict, StreamReader sr)
 {
@@ -122,7 +127,7 @@ void LoadFlights(Dictionary<string, Flight> flightsDict, StreamReader sr)
     }
 }
 
-//Feature #3: List Flights
+//Feature #3: List Flights (HUANG YANGMILE)
 Dictionary<string, string> specialRequestFlightsDict = new();
 void ListFlights(Dictionary<string, Flight> flightsDict, Dictionary<string, Airline> airlinesDict)
 {
@@ -132,10 +137,9 @@ void ListFlights(Dictionary<string, Flight> flightsDict, Dictionary<string, Airl
                       "=============================================");
 
 
-    string stringFormat = "{0,-20} {1,-20} {2,-20} {3,-20}{4, -20}\n{5, -20}";
+    string stringFormat = "{0,-20} {1,-20} {2,-20} {3,-20}{4, -20}";
 
-    Console.WriteLine(stringFormat, "Flight Number", "Airline Name", "Origin", "Destination", "Expected",
-        "Departure/Arrival Time");
+    Console.WriteLine(stringFormat, "Flight Number", "Airline Name", "Origin", "Destination", "Expected Departure/Arrival Time");
 
     foreach (KeyValuePair<string, Flight> kvp in flightsDict)
     {
@@ -143,8 +147,7 @@ void ListFlights(Dictionary<string, Flight> flightsDict, Dictionary<string, Airl
         string flightNumber = flight.FlightNumber;
         string origin = flight.Origin;
         string destination = flight.Destination;
-        DateOnly date = DateOnly.FromDateTime(flight.ExpectedTime);
-        TimeOnly time = TimeOnly.FromDateTime(flight.ExpectedTime);
+        DateTime expectedTime = flight.ExpectedTime;
 
         string airlineCode = $"{flightNumber[0]}{flightNumber[1]}";
         string airlineName = "ERROR";
@@ -154,11 +157,11 @@ void ListFlights(Dictionary<string, Flight> flightsDict, Dictionary<string, Airl
             airlineName = airlinesDict[airlineCode].Name;
         }
 
-        Console.WriteLine(stringFormat, flightNumber, airlineName, origin, destination, date, time);
+        Console.WriteLine(stringFormat, flightNumber, airlineName, origin, destination, expectedTime);
     }
 }
 
-// Feature #4: List Boarding Gates
+// Feature #4: List Boarding Gates (LARRY CHIA)
 void ListBoardingGates(Dictionary<string, BoardingGate> boardingGatesDict)
 {
     Console.WriteLine("=============================================\n" +
@@ -183,7 +186,7 @@ void ListBoardingGates(Dictionary<string, BoardingGate> boardingGatesDict)
     }
 }
 
-//Feature #5: Assign boarding gate to flight
+//Feature #5: Assign boarding gate to flight (HUANG YANGMILE)
 void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<string, BoardingGate> boardingGatesDict)
 {
     Console.WriteLine("=============================================\n" +
@@ -281,7 +284,7 @@ void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<strin
 }
 
 
-//Feature #6: Create a new flight
+//Feature #6: Create a new flight (HUANG YANGMILE)
 void CreateNewFlight(Dictionary<string, Flight> flightsDict)
 {
     loopContinue = true;
@@ -368,7 +371,7 @@ void CreateNewFlight(Dictionary<string, Flight> flightsDict)
 }
 
 
-//Feature #7: Display full flight details from an airline
+//Feature #7: Display full flight details from an airline (LARRY CHIA)
 void DisplayFullDetailsFromAirline()
 {
     Console.WriteLine("=============================================\n" +
@@ -417,7 +420,7 @@ void DisplayFullDetailsFromAirline()
     }
 }
 
-//Feautre #8 : Modify flight details
+//Feautre #8 : Modify flight details (LARRY CHIA)
 
 
 
@@ -428,7 +431,56 @@ void DisplayFullDetailsFromAirline()
 
 
 
+//Feature #9: Display scheduled flights in chronological order (HUANG YANGMILE)
+void DisplayFlightSchedule(Dictionary<string, Flight> flightsDict, Dictionary<string, BoardingGate> boardingGatesDict, Dictionary<string, Airline> airlineDict)
+{
+    List<Flight> flightList = flightsDict.Values.ToList();
+    flightList.Sort();
+    
+    Console.WriteLine("=============================================\n" +
+                      "Flight Schedule for Changi Airport Terminal 5\n" +
+                      "=============================================");
+    
+    string stringFormat = "{0,-20} {1,-20} {2,-20} {3,-20}{4, -20}\n{5, -20} {6, -20}";
+    Console.WriteLine(stringFormat, "Flight Number", "Airline Name", "Origin", "Destination", "Expected Departure/Arrival Time", "Status", "Boarding Gate");
+    
+    List<BoardingGate> boardingGatesWithFlights = new();
+    foreach (BoardingGate boardingGate in boardingGatesDict.Values.ToList())
+    {
+        if (boardingGate.Flight != null)
+        {
+            boardingGatesWithFlights.Add(boardingGate);
+        }
+    }
+    
+    foreach (Flight flight in flightList)
+    {
+        string flightNumber = flight.FlightNumber;
+        string origin = flight.Origin;
+        string destination = flight.Destination;
+        DateTime expectedTime = flight.ExpectedTime;
+        string status = flight.Status;
+        string boardingGate = "Unassigned";
 
+        foreach (BoardingGate gate in boardingGatesWithFlights)
+        {
+            if (flight == gate.Flight)
+            {
+                boardingGate = gate.GateName;
+            }
+        }
+        
+        string airlineCode = $"{flightNumber[0]}{flightNumber[1]}";
+        string airlineName = "ERROR";
+
+        if (airlinesDict.ContainsKey(airlineCode))
+        {
+            airlineName = airlinesDict[airlineCode].Name;
+        }
+        
+        Console.WriteLine(stringFormat, flightNumber, airlineName, origin, destination, expectedTime, status, boardingGate);
+    }
+}
 
 
 LoadAirlineAndBoardingGateData(airlinesDict, boardingGatesDict, new("airlines.csv"), new("boardinggates.csv"));
@@ -488,7 +540,7 @@ while (true)
     }
     else if (userInput == 7)
     {
-
+        DisplayFlightSchedule(flightsDict, boardingGatesDict, airlinesDict);
     }
     else if (userInput == 0)
     {
