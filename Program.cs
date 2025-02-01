@@ -480,6 +480,65 @@ void DisplayFlightSchedule(Dictionary<string, Flight> flightsDict, Dictionary<st
     }
 }
 
+//Advanced Feature A: Process all unassigned flights to boarding gates in bulk (HUANG YANGMILE)
+void AutoAssignFlights(Dictionary<string, Flight> flightsDict, Dictionary<string, BoardingGate> boardingGatesDict)
+{
+    List<Flight> flightList = flightsDict.Values.ToList();
+    Queue<Flight> filteredFlightQueue = new();
+    
+    List<BoardingGate> gateList = boardingGatesDict.Values.ToList();
+    List<BoardingGate> filteredGateList = new();
+
+    foreach (BoardingGate boardingGate in gateList)
+    {
+        if (boardingGate.Flight != null)
+        {
+            flightList.Remove(boardingGate.Flight);
+            continue;
+        }
+        
+        filteredGateList.Add(boardingGate);
+    }
+
+    foreach (Flight flight in flightList)
+    {
+        filteredFlightQueue.Enqueue(flight);
+    }
+    
+    Console.WriteLine($"There are {filteredFlightQueue.Count} flights yet to be assigned.");
+    Console.WriteLine($"There are {filteredGateList.Count} boarding gates yet to be assigned.");
+    
+    
+    
+    while (filteredFlightQueue.Count > 0)
+    {
+        Flight flightToAssign = filteredFlightQueue.Dequeue();
+        BoardingGate gateToAssign = new();
+
+        if (flightToAssign is NORMFlight)
+        {
+            gateToAssign = filteredGateList.Find(gate => gate.SupportsDDJB && gate.SupportsCFFT && gate.SupportsLWTT); //God bless arrow functions
+        }
+        else if (flightToAssign is DDJBFlight)
+        {
+            gateToAssign = filteredGateList.Find(gate => gate.SupportsDDJB);
+        }
+        else if (flightToAssign is CFFTFlight)
+        {
+            gateToAssign = filteredGateList.Find(gate => gate.SupportsCFFT);
+        }
+        else if (flightToAssign is LWTTFlight)
+        {
+            gateToAssign = filteredGateList.Find(gate => gate.SupportsLWTT);
+        }
+
+        if (gateToAssign == null) continue; //If there is no suitable gate found, this will be null. 
+        
+        gateToAssign.Flight = flightToAssign;
+        filteredGateList.Remove(gateToAssign);
+    }
+}
+
 
 LoadAirlineAndBoardingGateData(airlinesDict, boardingGatesDict, new("airlines.csv"), new("boardinggates.csv"));
 LoadFlights(flightsDict, new("flights.csv"));
@@ -497,6 +556,7 @@ while (true)
                       "5. Display Airline Flights\n" +
                       "6. Modify Flight Details\n" +
                       "7. Display Flight Schedule\n" +
+                      "8. Automatically assign flights to boarding gates\n" +
                       "0. Exit\n\n" +
                       "Please select your option:");
 
@@ -539,6 +599,10 @@ while (true)
     else if (userInput == 7)
     {
         DisplayFlightSchedule(flightsDict, boardingGatesDict, airlinesDict);
+    }
+    else if (userInput == 8)
+    {
+        AutoAssignFlights(flightsDict, boardingGatesDict);
     }
     else if (userInput == 0)
     {
