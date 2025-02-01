@@ -55,7 +55,7 @@ void LoadAirlineAndBoardingGateData(
             bool LWTTBool = bool.Parse(line.Split(',')[3]);
 
             //Create a new boarding gate object
-            BoardingGate boardingGateObj = new(boardingGate, CFFTBool, DDJBBool, LWTTBool);
+            BoardingGate boardingGateObj = new(boardingGate, DDJBBool, CFFTBool, LWTTBool);
             boardingGatesDict.Add(boardingGate, boardingGateObj);
         }
         Console.WriteLine($"{lineCount} Boarding Gates Loaded!");
@@ -163,11 +163,11 @@ void ListBoardingGates(Dictionary<string, BoardingGate> boardingGatesDict)
                       "List of Boarding Gates\n" +
                       "=============================================");
     string stringFormat = "{0,-20} {1,-20} {2,-20} {3,-20}";
-    Console.WriteLine(stringFormat, "Boarding Gate", "CFFT", "DDJB", "LWTT");
+    Console.WriteLine(stringFormat, "Boarding Gate", "DDJB", "CFFT", "LWTT");
     foreach (var kvp in boardingGatesDict)
     {
         BoardingGate gate = kvp.Value;
-        Console.WriteLine(stringFormat, gate.GateName, gate.SupportsCFFT, gate.SupportsDDJB, gate.SupportsLWTT);
+        Console.WriteLine(stringFormat, gate.GateName, gate.SupportsDDJB, gate.SupportsCFFT, gate.SupportsLWTT);
     }
 }
 
