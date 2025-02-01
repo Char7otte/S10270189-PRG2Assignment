@@ -1,4 +1,6 @@
-﻿bool loopContinue = true; //TO BE FOR USE IN WHILE (TRUE) LOOPS IF THERE IS A
+﻿using System.Globalization;
+
+bool loopContinue = true; //TO BE FOR USE IN WHILE (TRUE) LOOPS IF THERE IS A
                           //NESTED SWITCH STATEMENT OR WTV THAT PREVENTS CONTINUE FROM BEING USED
 
 
@@ -278,6 +280,94 @@ void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<strin
     Console.WriteLine($"Flight {flightNumber} has been set to '{flight.Status}'.");
 }
 
+
+//Feature #6: Create a new flight
+void CreateNewFlight(Dictionary<string, Flight> flightsDict)
+{
+    loopContinue = true;
+    while (loopContinue)
+    {
+        string flightNumber = "";
+        while (true)
+        {
+            try
+            {
+                Console.Write("Enter Flight Number: ");
+                flightNumber = Console.ReadLine().ToUpper();
+
+                Console.Write("Enter Origin: ");
+                string origin = Console.ReadLine();
+
+                Console.Write("Enter Destination: ");
+                string destination = Console.ReadLine();
+
+                Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
+                string input = Console.ReadLine();
+                string format = "d/M/yyyy H:mm";
+                DateTime departureTime = DateTime.ParseExact(input, format, CultureInfo.InvariantCulture);
+
+                Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
+                string specialRequestCode = Console.ReadLine().ToUpper();
+
+                if (specialRequestCode == "NONE")
+                {
+                    NORMFlight newNORMFlight = new NORMFlight(flightNumber, origin, destination, departureTime);
+                    flightsDict.Add(flightNumber, newNORMFlight);
+                    break;
+                }
+                if (specialRequestCode == "DDJB")
+                {
+                    DDJBFlight newDDJBFlight = new DDJBFlight(flightNumber, origin, destination, departureTime);
+                    flightsDict.Add(flightNumber, newDDJBFlight);
+                    break;
+                }
+                if (specialRequestCode == "CFTT")
+                {
+                    CFFTFlight newCFFTFlight = new CFFTFlight(flightNumber, origin, destination, departureTime);
+                    flightsDict.Add(flightNumber, newCFFTFlight);
+                    break;
+                }
+                if (specialRequestCode == "LWTT")
+                {
+                    LWTTFlight newLWTTFlight = new LWTTFlight(flightNumber, origin, destination, departureTime);
+                    flightsDict.Add(flightNumber, newLWTTFlight);
+                    break;
+                }
+
+                throw new Exception("Invalid request code!");
+                
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e + "Please try again!");
+                Console.ReadLine();
+            }
+        }
+        
+        Console.WriteLine($"Flight {flightNumber} has been added!");
+        
+        while (true)
+        {
+            string addAnotherFlight = InputForString("Would you like to add another flight? (Y/N)").ToUpper();
+
+            if (addAnotherFlight == "Y")
+            {
+                break;
+            }
+            if (addAnotherFlight == "N")
+            {
+                loopContinue = false;
+                break;
+            }
+        
+            Console.WriteLine("Invalid input. Please try again.");
+            Console.ReadLine();
+        }
+        
+    }
+}
+
+
 //Feature #7: Display full flight details from an airline
 void DisplayFullDetailsFromAirline()
 {
@@ -386,7 +476,7 @@ while (true)
     }
     else if (userInput == 4)
     {
-
+        CreateNewFlight(flightsDict);
     }
     else if (userInput == 5)
     {
