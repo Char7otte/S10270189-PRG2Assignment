@@ -280,6 +280,7 @@ void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<strin
     Console.WriteLine($"Flight {flightNumber} has been set to '{flight.Status}'.");
 }
 
+
 //Feature #6: Create a new flight
 void CreateNewFlight(Dictionary<string, Flight> flightsDict)
 {
@@ -367,6 +368,69 @@ void CreateNewFlight(Dictionary<string, Flight> flightsDict)
 }
 
 
+//Feature #7: Display full flight details from an airline
+void DisplayFullDetailsFromAirline()
+{
+    Console.WriteLine("=============================================\n" +
+                      "Display Full Flight Details from an Airline\n" +
+                      "=============================================");
+
+    Console.WriteLine("Airline Code     Airline Name");
+    foreach (KeyValuePair<string, Airline> keyValuePair in airlinesDict) 
+    {
+        Airline airline = keyValuePair.Value;
+        Console.WriteLine($"{airline.Code,-17}{airline.Name}");
+    }
+
+    string airlineCode = InputForString("Enter Airline Code:", "how did you mess up the airline code").ToUpper();
+    if (!airlinesDict.ContainsKey(airlineCode))
+    {
+        Console.WriteLine("AIRLINE CODE NOT FOUND!");
+        Console.ReadLine();
+        return;
+    }
+    Console.WriteLine("=============================================\n" +
+                      "List of Flights for Changi Airport Terminal 5\n" +
+                      "=============================================");
+    string stringFormat = "{0,-20} {1,-20} {2,-20} {3,-20}{4, -20}\n{5, -20}";
+    Console.WriteLine(stringFormat, "Flight Number", "Airline Name", "Origin", "Destination", "Expected",
+        "Departure/Arrival Time");
+    foreach (KeyValuePair<string, Flight> kvp in flightsDict)
+    {
+        Flight flight = kvp.Value;
+        string flightNumber = flight.FlightNumber;
+        string origin = flight.Origin;
+        string destination = flight.Destination;
+        DateOnly date = DateOnly.FromDateTime(flight.ExpectedTime);
+        TimeOnly time = TimeOnly.FromDateTime(flight.ExpectedTime);
+        string airlineCode2 = $"{flightNumber[0]}{flightNumber[1]}";
+        string airlineName = "ERROR";
+        if (airlinesDict.ContainsKey(airlineCode2))
+        {
+            airlineName = airlinesDict[airlineCode2].Name;
+        }
+        if (airlineCode2 == airlineCode)
+        {
+            string formattedTime = time.ToString("hh:mm:ss tt");
+            Console.WriteLine(stringFormat, flightNumber, airlineName, origin, destination, date, formattedTime);
+        }
+    }
+}
+
+//Feautre #8 : Modify flight details
+
+
+
+
+
+
+
+
+
+
+
+
+
 LoadAirlineAndBoardingGateData(airlinesDict, boardingGatesDict, new("airlines.csv"), new("boardinggates.csv"));
 LoadFlights(flightsDict, new("flights.csv"));
 Console.WriteLine("\n\n\n\n\n");
@@ -416,7 +480,7 @@ while (true)
     }
     else if (userInput == 5)
     {
-
+        DisplayFullDetailsFromAirline();
     }
     else if (userInput == 6)
     {
