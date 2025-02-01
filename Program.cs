@@ -1,12 +1,10 @@
-﻿/////////////////////////////////////////////////////////////////////////
-/// S10270189J Huang Yangmile: Features 2, 3, 5, 6, 9, Advanced (a) ///
-/// S10259006 Larry Chia: Features 1, 4, 7, 8, Advanced (b)         ///
-/////////////////////////////////////////////////////////////////////////
+﻿// S10270189J Huang Yangmile: Features 2, 3, 5, 6, 9, Advanced (a)
+// S10259006 Larry Chia: Features 1, 4, 7, 8, Advanced (b)
+
 
 using System.Globalization;
 
-bool loopContinue = true; //TO BE FOR USE IN WHILE (TRUE) LOOPS IF THERE IS A
-                          //NESTED SWITCH STATEMENT OR WTV THAT PREVENTS CONTINUE FROM BEING USED
+bool loopContinue = true; //For use in while (true) loops with nested loops where calling the while loop is difficult.
 
 
 
