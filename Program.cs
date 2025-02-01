@@ -269,18 +269,12 @@ void DisplayFullDetailsFromAirline()
     }
 }
 
-<<<<<<< Updated upstream
-//Feautre #8 : Modify flight details
-
-=======
 //Feature #8 : Modify flight details (LARRY CHIA)
 void ModifyFlightDetails()
 {
     Console.WriteLine("=============================================\n" +
                   "Display Full Flight Details from an Airline\n" +
                   "=============================================");
->>>>>>> Stashed changes
-
     Console.WriteLine("Airline Code     Airline Name");
     foreach (KeyValuePair<string, Airline> keyValuePair in airlinesDict)
     {
