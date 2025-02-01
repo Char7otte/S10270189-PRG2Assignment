@@ -102,6 +102,8 @@ void LoadFlights(Dictionary<string, Flight> flightsDict, StreamReader sr)
                 "CFFT" => new CFFTFlight(flightNumber, origin, destination, expectedTime),
                 "LWTT" => new LWTTFlight(flightNumber, origin, destination, expectedTime)
             };
+            
+            flightsDict.Add(flightNumber, newFlight);
         }
 
         Console.WriteLine($"{lineCount} Flights Loaded!");
