@@ -496,7 +496,7 @@ void ModifyFlightDetails()
 
                     Console.Write("Enter new Expected Time (dd/mm/yyyy hh:mm): ");
                     string input = Console.ReadLine();
-                    string format = "d/M/yyyy H:mm";
+                    string format = "dd/MM/yyyy HH:mm";
                     DateTime newExpectedTime = DateTime.ParseExact(input, format, CultureInfo.InvariantCulture); //Tells the parser to use standard formats regardless of the computer's regional settings
                     flight.ExpectedTime = newExpectedTime;
 
