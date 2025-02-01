@@ -679,10 +679,15 @@ void AutoAssignFlights(Dictionary<string, Flight> flightsDict, Dictionary<string
     
     Console.WriteLine($"There are {filteredFlightQueue.Count} flights yet to be assigned.");
     Console.WriteLine($"There are {filteredGateList.Count} boarding gates yet to be assigned.");
+
+    int processedCount = 0;
+    int assignedCount = 0;
     
     while (filteredFlightQueue.Count > 0)
     {
         Flight flightToAssign = filteredFlightQueue.Dequeue();
+        processedCount++;
+        
         BoardingGate gateToAssign = new();
 
         if (flightToAssign is NORMFlight)
@@ -704,9 +709,12 @@ void AutoAssignFlights(Dictionary<string, Flight> flightsDict, Dictionary<string
 
         if (gateToAssign == null) continue; //If there is no suitable gate found, this will be null. 
         
+        assignedCount++;
         gateToAssign.Flight = flightToAssign;
         filteredGateList.Remove(gateToAssign);
     }
+    
+    Console.WriteLine($"{processedCount} flight(s) have been processed. {assignedCount} flight(s) have been assigned.");
 }
 
 
