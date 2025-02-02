@@ -211,6 +211,9 @@ void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<strin
             break;
         }
 
+        Flight flight;
+        BoardingGate boardingGate;
+
         //Boarding Gate input
         while (true)
         {
@@ -222,19 +225,51 @@ void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<strin
                 Console.ReadLine();
                 continue;
             }
+            
+            //Get flight & boarding gate from input
+            flight = flightsDict[flightNumber];
+            boardingGate = boardingGatesDict[boardingGateName];
 
+            if (flight is NORMFlight)
+            {
+                break;
+            }
+            
+            if (flight is DDJBFlight)
+            {
+                if (!boardingGate.SupportsDDJB)
+                {
+                    Console.WriteLine("Boarding Gate does not support DDJB. Please try another gate.");
+                    Console.ReadLine();
+                    continue;
+                }
+            }
+            else if (flight is CFFTFlight)
+            {
+                if (!boardingGate.SupportsCFFT)
+                {
+                    Console.WriteLine("Boarding Gate does not support CFFT. Please try another gate.");
+                    Console.ReadLine();
+                    continue;
+                }
+            }
+            else if (flight is LWTTFlight)
+            {
+                if (!boardingGate.SupportsLWTT)
+                {
+                    Console.WriteLine("Boarding Gate does not support LWTT. Please try another gate.");
+                    Console.ReadLine();
+                    continue;
+                }
+            }
             break;
         }
-
-        //Get flight & boarding gate from input
-        Flight flight = flightsDict[flightNumber];
-        BoardingGate boardingGate = boardingGatesDict[boardingGateName];
-
+        
         boardingGate.Flight = flight;
 
         Console.WriteLine(flight);
         Console.WriteLine(boardingGate);
-
+        
         while (true)
         {
             string stringInput = InputForString("Would you like to update the status of the flight? (Y/N)").ToUpper();
@@ -452,8 +487,7 @@ void ModifyFlightDetails()
         string flightNumber = flight.FlightNumber;
         string origin = flight.Origin;
         string destination = flight.Destination;
-        DateOnly date = DateOnly.FromDateTime(flight.ExpectedTime);
-        TimeOnly time = TimeOnly.FromDateTime(flight.ExpectedTime);
+        DateTime expectedTime = flight.ExpectedTime;
         string airlineCode2 = $"{flightNumber[0]}{flightNumber[1]}";
         string airlineName = "ERROR";
         if (airlinesDict.ContainsKey(airlineCode2))
@@ -462,12 +496,11 @@ void ModifyFlightDetails()
         }
         if (airlineCode2 == airlineCode)
         {
-            string formattedTime = time.ToString("hh:mm:ss tt");
-            Console.WriteLine(stringFormat, flightNumber, airlineName, origin, destination, date, formattedTime);
+            Console.WriteLine(stringFormat, flightNumber, airlineName, origin, destination, expectedTime);
         }
     }
 
-    Console.Write("Choose an existing Flight to modify or delete: ");
+    Console.WriteLine("Choose an existing Flight to modify or delete: ");
     string FlightNumber = Console.ReadLine().ToUpper();
     if (!flightsDict.ContainsKey(FlightNumber))
     {
@@ -502,10 +535,10 @@ void ModifyFlightDetails()
                     string newDestination = Console.ReadLine();
                     flight.Destination = newDestination;
 
-                    Console.Write("Enter new Expected Time (dd/mm/yyyy hh:mm): ");
+                    Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
                     string input = Console.ReadLine();
-                    string format = "dd/MM/yyyy HH:mm";
-                    DateTime newExpectedTime = DateTime.ParseExact(input, format, CultureInfo.InvariantCulture); //Tells the parser to use standard formats regardless of the computer's regional settings
+                    string format = "d/M/yyyy H:mm";
+                    DateTime newExpectedTime = DateTime.ParseExact(input, format, CultureInfo.InvariantCulture);
                     flight.ExpectedTime = newExpectedTime;
 
                     Console.WriteLine("Flight updated!");
@@ -576,6 +609,26 @@ void ModifyFlightDetails()
         Console.WriteLine("Destination: " + flightsDict[FlightNumber].Destination);
         Console.WriteLine("Expected Time: " + flightsDict[FlightNumber].ExpectedTime);
         Console.WriteLine("Status: " + flightsDict[FlightNumber].Status);
+
+        if (newRequestCode == "")
+        {
+            if (flightsDict[FlightNumber] is NORMFlight)
+            {
+                newRequestCode = "None";
+            }
+            else if (flightsDict[FlightNumber] is DDJBFlight)
+            {
+                newRequestCode = "DDJB";
+            }
+            else if (flightsDict[FlightNumber] is CFFTFlight)
+            {
+                newRequestCode = "CFFT";
+            }
+            else if (flightsDict[FlightNumber] is LWTTFlight)
+            {
+                newRequestCode = "LWTT";
+            }
+        }
         Console.WriteLine("Special Request Code: " + newRequestCode);
         if (boardingGatesDict.FirstOrDefault(x => x.Value.Flight == flightsDict[FlightNumber]).Value != null)
         {
