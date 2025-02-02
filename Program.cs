@@ -432,17 +432,16 @@ void DisplayFullDetailsFromAirline()
     Console.WriteLine("=============================================\n" +
                       "List of Flights for Changi Airport Terminal 5\n" +
                       "=============================================");
-    string stringFormat = "{0,-20} {1,-20} {2,-20} {3,-20}{4, -20}\n{5, -20}";
-    Console.WriteLine(stringFormat, "Flight Number", "Airline Name", "Origin", "Destination", "Expected",
-        "Departure/Arrival Time");
+    string stringFormat = "{0,-20} {1,-20} {2,-20} {3,-20} {4, -20}";
+    Console.WriteLine(stringFormat, "Flight Number", "Airline Name", "Origin", "Destination",
+        "Expected Departure/Arrival Time");
     foreach (KeyValuePair<string, Flight> kvp in flightsDict)
     {
         Flight flight = kvp.Value;
         string flightNumber = flight.FlightNumber;
         string origin = flight.Origin;
         string destination = flight.Destination;
-        DateOnly date = DateOnly.FromDateTime(flight.ExpectedTime);
-        TimeOnly time = TimeOnly.FromDateTime(flight.ExpectedTime);
+        DateTime expectedTime = flight.ExpectedTime;
         string airlineCode2 = $"{flightNumber[0]}{flightNumber[1]}";
         string airlineName = "ERROR";
         if (airlinesDict.ContainsKey(airlineCode2))
@@ -451,8 +450,7 @@ void DisplayFullDetailsFromAirline()
         }
         if (airlineCode2 == airlineCode)
         {
-            string formattedTime = time.ToString("hh:mm:ss tt");
-            Console.WriteLine(stringFormat, flightNumber, airlineName, origin, destination, date, formattedTime);
+            Console.WriteLine(stringFormat, flightNumber, airlineName, origin, destination, expectedTime);
         }
     }
 }
@@ -461,8 +459,8 @@ void DisplayFullDetailsFromAirline()
 void ModifyFlightDetails()
 {
     Console.WriteLine("=============================================\n" +
-                  "Display Full Flight Details from an Airline\n" +
-                  "=============================================");
+                      "List of Airlines for Changi Airport Terminal 5\n" +
+                      "=============================================");
     Console.WriteLine("Airline Code     Airline Name");
     foreach (KeyValuePair<string, Airline> keyValuePair in airlinesDict)
     {
@@ -481,9 +479,9 @@ void ModifyFlightDetails()
     string AirlineName = airlinesDict[airlineCode].Name;
     Console.WriteLine($"List of Flights for {AirlineName}");
 
-    string stringFormat = "{0,-20} {1,-20} {2,-20} {3,-20}{4, -20}\n{5, -20}";
-    Console.WriteLine(stringFormat, "Flight Number", "Airline Name", "Origin", "Destination", "Expected",
-        "Departure/Arrival Time");
+    string stringFormat = "{0,-20} {1,-20} {2,-20} {3,-20}{4, -20}";
+    Console.WriteLine(stringFormat, "Flight Number", "Airline Name", "Origin", "Destination",
+        "Expected Departure/Arrival Time");
     foreach (KeyValuePair<string, Flight> kvp in flightsDict)
     {
         Flight flight = kvp.Value;
