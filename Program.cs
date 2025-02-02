@@ -203,7 +203,7 @@ void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<strin
 
             if (!flightsDict.ContainsKey(flightNumber))
             {
-                Console.WriteLine("FLIGHT NUMBER NOT FOUND!");
+                Console.WriteLine("Please enter a valid flight number.");
                 Console.ReadLine();
                 continue;
             }
@@ -221,7 +221,7 @@ void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<strin
 
             if (!boardingGatesDict.ContainsKey(boardingGateName))
             {
-                Console.WriteLine("BOARDING GATE NOT FOUND!");
+                Console.WriteLine("Please enter a valid boarding gate.");
                 Console.ReadLine();
                 continue;
             }
@@ -335,24 +335,38 @@ void CreateNewFlight(Dictionary<string, Flight> flightsDict, Dictionary<string, 
         //Get flight number & make sure it's valid by checking if it's found in airlinesDict
         while (true)
         {
-            Console.Write("Enter Flight Number: ");
-            flightNumber = Console.ReadLine().ToUpper();
-
-            string airlineCode = $"{flightNumber[0]}{flightNumber[1]}";
-
-            if (!airlinesDict.ContainsKey(airlineCode))
+            try
             {
-                Console.WriteLine("Airline code not found. Please try again.");
-                Console.ReadLine();
-                continue;
-            }
+                flightNumber = InputForString("Enter Flight Number:").ToUpper();
 
-            break;
+                string airlineCode = $"{flightNumber[0]}{flightNumber[1]}";
+
+                if (!airlinesDict.ContainsKey(airlineCode))
+                {
+                    Console.WriteLine("Airline code not found. Please try again.");
+                    Console.ReadLine();
+                    continue;
+                }
+
+                if (flightsDict.ContainsKey(flightNumber))
+                {
+                    Console.WriteLine("There is already a flight with this flight number. Please enter a different one.");
+                    Console.ReadLine();
+                    continue;
+                }
+
+                break;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Please enter a valid airline code.");
+                Console.ReadLine();
+            }
         }
 
         //Get the rest of the inputs.
-        string origin = InputForStringNoNewLine("Enter Origin: ");
-        string destination = InputForStringNoNewLine("Enter Destination: ");
+        string origin = InputForStringNoNewLine("Enter Origin: ", "Please enter an origin.");
+        string destination = InputForStringNoNewLine("Enter Destination: ", "Please enter an destination.");
         DateTime departureTime;
         string specialRequestCode;
 
@@ -374,7 +388,7 @@ void CreateNewFlight(Dictionary<string, Flight> flightsDict, Dictionary<string, 
 
         while (true)
         {
-            specialRequestCode = InputForStringNoNewLine("Enter Special Request Code (CFFT/DDJB/LWTT/None): ").ToUpper();
+            specialRequestCode = InputForStringNoNewLine("Enter Special Request Code (CFFT/DDJB/LWTT/None): ", "Please enter a request code, or 'None' if there is no request code.").ToUpper();
             if (specialRequestCode == "CFFT" || specialRequestCode == "DDJB" || specialRequestCode == "LWTT" ||
                 specialRequestCode == "NONE")
             {
@@ -382,6 +396,7 @@ void CreateNewFlight(Dictionary<string, Flight> flightsDict, Dictionary<string, 
             }
             
             Console.WriteLine("Invalid Special Request Code. Please try again.");
+            Console.ReadLine();
         }
 
         //Surely, there won't be any errors here since we've checked all the inputs already <========== Clueless
@@ -688,9 +703,9 @@ void DisplayFlightSchedule(Dictionary<string, Flight> flightsDict, Dictionary<st
     Console.WriteLine("=============================================\n" +
                       "Flight Schedule for Changi Airport Terminal 5\n" +
                       "=============================================");
-    
-    string stringFormat = "{0,-20} {1,-20} {2,-20} {3,-20}{4, -20}\n{5, -20} {6, -20}";
-    Console.WriteLine(stringFormat, "Flight Number", "Airline Name", "Origin", "Destination", "Expected Departure/Arrival Time", "Status", "Boarding Gate");
+    //The requirements ask us to include special request code, but the sample output doesn't have it... tsk tsk tsk
+    string stringFormat = "{0,-20} {1,-20} {2,-20} {3,-20}{4, -20}\n{5, -20} {6, -20} {7, -20}";
+    Console.WriteLine(stringFormat, "Flight Number", "Airline Name", "Origin", "Destination", "Expected Departure/Arrival Time", "Status", "Special Request Code", "Boarding Gate");
     
     List<BoardingGate> boardingGatesWithFlights = new();
     foreach (BoardingGate boardingGate in boardingGatesDict.Values.ToList())
@@ -710,6 +725,21 @@ void DisplayFlightSchedule(Dictionary<string, Flight> flightsDict, Dictionary<st
         string status = flight.Status;
         string boardingGate = "Unassigned";
 
+        string specialRequestCode = "";
+
+        if (flight is DDJBFlight)
+        {
+            specialRequestCode = "DDJB";
+        }
+        else if (flight is CFFTFlight)
+        {
+            specialRequestCode = "CFFT";
+        }
+        else if (flight is LWTTFlight)
+        {
+            specialRequestCode = "LWTT";
+        }
+
         foreach (BoardingGate gate in boardingGatesWithFlights)
         {
             if (flight == gate.Flight)
@@ -726,7 +756,7 @@ void DisplayFlightSchedule(Dictionary<string, Flight> flightsDict, Dictionary<st
             airlineName = airlinesDict[airlineCode].Name;
         }
         
-        Console.WriteLine(stringFormat, flightNumber, airlineName, origin, destination, expectedTime, status, boardingGate);
+        Console.WriteLine(stringFormat, flightNumber, airlineName, origin, destination, expectedTime, status, specialRequestCode ,boardingGate);
     }
 }
 
@@ -919,20 +949,21 @@ while (true)
                       "7. Display Flight Schedule\n" +
                       "8. Automatically assign flights to boarding gates\n" +
                       "9. Display Total Fee per Airline\n" +
-                      "0. Exit\n\n" +
-                      "Please select your option:");
+                      "0. Exit\n");
 
-    int userInput = 0;
-    try
-    {
-        userInput = int.Parse(Console.ReadLine());
-    }
-    catch (Exception e)
-    {
-        Console.WriteLine(e);
-        Console.ReadLine();
-        continue;
-    }
+    // int userInput = 0;
+    // try
+    // {
+    //     userInput = int.Parse(Console.ReadLine());
+    // }
+    // catch (Exception e)
+    // {
+    //     Console.WriteLine(Console'WriteLine');
+    //     Console.ReadLine();
+    //     continue;
+    // }
+    
+    int userInput = InputForInt("Please select your option:");
 
     if (userInput == 1)
     {
@@ -976,22 +1007,31 @@ while (true)
         Console.ReadLine();
         Environment.Exit(0);
     }
+    else
+    {
+        Console.WriteLine("Invalid Input!");
+    }
 
     Console.ReadLine();
 }
 
-string InputForString(string request, string errorMessage = "Invalid input.")
+string InputForString(string request, string errorMessage = "Please enter something matching one of the options.")
 {
     while (true)
     {
         try
         {
             Console.WriteLine(request);
-            return Console.ReadLine();
+            string input = Console.ReadLine();
+            if (input == "")
+            {
+                throw new Exception();
+            }
+
+            return input;
         }
-        catch (Exception e)
+        catch
         {
-            Console.WriteLine(e);
             Console.WriteLine(errorMessage);
             Console.ReadLine();
         }
@@ -1007,27 +1047,32 @@ int InputForInt(string request, string errorMessage = "Please enter a number mat
             Console.WriteLine(request);
             return int.Parse(Console.ReadLine());
         }
-        catch (Exception e)
+        catch
         {
-            Console.WriteLine(e);
             Console.WriteLine(errorMessage);
             Console.ReadLine();
         }
     }
 }
 
-string InputForStringNoNewLine(string request, string errorMessage = "Invalid input.")
+string InputForStringNoNewLine(string request, string errorMessage = "Please enter something matching one of the options.")
 {
     while (true)
     {
         try
         {
             Console.Write(request);
-            return Console.ReadLine();
+            string input = Console.ReadLine();
+            if (input == "")
+            {
+                throw new Exception();
+            }
+
+            return input;
+
         }
-        catch (Exception e)
+        catch
         {
-            Console.WriteLine(e);
             Console.WriteLine(errorMessage);
             Console.ReadLine();
         }
