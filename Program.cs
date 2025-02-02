@@ -1002,11 +1002,16 @@ string InputForString(string request, string errorMessage = "Please enter someth
         try
         {
             Console.WriteLine(request);
-            return Console.ReadLine();
+            string input = Console.ReadLine();
+            if (input == "")
+            {
+                throw new Exception();
+            }
+
+            return input;
         }
-        catch (Exception e)
+        catch
         {
-            Console.WriteLine(e);
             Console.WriteLine(errorMessage);
             Console.ReadLine();
         }
@@ -1022,9 +1027,8 @@ int InputForInt(string request, string errorMessage = "Please enter a number mat
             Console.WriteLine(request);
             return int.Parse(Console.ReadLine());
         }
-        catch (Exception e)
+        catch
         {
-            Console.WriteLine(e);
             Console.WriteLine(errorMessage);
             Console.ReadLine();
         }
@@ -1038,11 +1042,17 @@ string InputForStringNoNewLine(string request, string errorMessage = "Please ent
         try
         {
             Console.Write(request);
-            return Console.ReadLine();
+            string input = Console.ReadLine();
+            if (input == "")
+            {
+                throw new Exception();
+            }
+
+            return input;
+
         }
-        catch (Exception e)
+        catch
         {
-            Console.WriteLine(e);
             Console.WriteLine(errorMessage);
             Console.ReadLine();
         }
