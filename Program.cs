@@ -230,6 +230,7 @@ void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<strin
             flight = flightsDict[flightNumber];
             boardingGate = boardingGatesDict[boardingGateName];
 
+            //Check if the gate supports special request code of the flight
             if (flight is NORMFlight)
             {
                 break;
@@ -270,6 +271,7 @@ void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<strin
         Console.WriteLine(flight);
         Console.WriteLine(boardingGate);
         
+        //Check repeat 
         while (true)
         {
             string stringInput = InputForString("Would you like to update the status of the flight? (Y/N)").ToUpper();
@@ -316,10 +318,8 @@ void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<strin
                 loopContinue = false;
                 break;
             }
-            else
-            {
-                Console.WriteLine("Please enter Y or N.");
-            }
+
+            Console.WriteLine("Please enter Y or N.");
         }
     }
 }
@@ -385,9 +385,10 @@ void CreateNewFlight(Dictionary<string, Flight> flightsDict, Dictionary<string, 
                 Console.WriteLine("Please enter a valid date and time. For example, '13/1/2025 15:40'.");
             }
         }
-
+        
         while (true)
         {
+            //If specialRequestCode matches, continue. Else, ask for input again
             specialRequestCode = InputForStringNoNewLine("Enter Special Request Code (CFFT/DDJB/LWTT/None): ", "Please enter a request code, or 'None' if there is no request code.").ToUpper();
             if (specialRequestCode == "CFFT" || specialRequestCode == "DDJB" || specialRequestCode == "LWTT" ||
                 specialRequestCode == "NONE")
@@ -415,8 +416,8 @@ void CreateNewFlight(Dictionary<string, Flight> flightsDict, Dictionary<string, 
         {
             string addAnotherFlight = InputForString("Would you like to add another flight? (Y/N)").ToUpper();
 
-            if (addAnotherFlight == "N") return;
-            if (addAnotherFlight == "Y") break;
+            if (addAnotherFlight == "N") return; //Break out of the method
+            if (addAnotherFlight == "Y") break;  //Break out of the input check while loop which is nested in a while loop
             Console.WriteLine("Please enter Y or N.");
             Console.ReadLine();
         }
@@ -437,7 +438,7 @@ void DisplayFullDetailsFromAirline()
         Console.WriteLine($"{airline.Code,-17}{airline.Name}");
     }
 
-    string airlineCode = InputForString("Enter Airline Code:", "how did you mess up the airline code").ToUpper();
+    string airlineCode = InputForString("Enter Airline Code:").ToUpper();
     if (!airlinesDict.ContainsKey(airlineCode))
     {
         Console.WriteLine("AIRLINE CODE NOT FOUND!");
@@ -739,7 +740,8 @@ void DisplayFlightSchedule(Dictionary<string, Flight> flightsDict, Dictionary<st
         {
             specialRequestCode = "LWTT";
         }
-
+        
+        //Check if there is a gate found with the flight assigned
         foreach (BoardingGate gate in boardingGatesWithFlights)
         {
             if (flight == gate.Flight)
@@ -800,7 +802,8 @@ void AutoAssignFlights(Dictionary<string, Flight> flightsDict, Dictionary<string
         processedCount++;
         
         BoardingGate gateToAssign = new();
-
+        
+        //Find a gate with the respective SupportRequestCode attribute set to true
         if (flightToAssign is NORMFlight)
         {
             gateToAssign = filteredGateList.Find(gate => !gate.SupportsDDJB && !gate.SupportsCFFT && !gate.SupportsLWTT); //God bless arrow functions
@@ -820,8 +823,7 @@ void AutoAssignFlights(Dictionary<string, Flight> flightsDict, Dictionary<string
 
         if (gateToAssign == null) continue; //If there is no suitable gate found, this will be null. 
         
-        assignedCount++;
-        gateToAssign.Flight = flightToAssign;
+        assignedCount++; //If gateToAssign is null, assignedCount won't be incremented. Thus, the flight is processed, but not assigned.
         filteredGateList.Remove(gateToAssign);
     }
     
