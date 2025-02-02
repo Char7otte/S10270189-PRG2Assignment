@@ -335,19 +335,33 @@ void CreateNewFlight(Dictionary<string, Flight> flightsDict, Dictionary<string, 
         //Get flight number & make sure it's valid by checking if it's found in airlinesDict
         while (true)
         {
-            Console.Write("Enter Flight Number: ");
-            flightNumber = Console.ReadLine().ToUpper();
-
-            string airlineCode = $"{flightNumber[0]}{flightNumber[1]}";
-
-            if (!airlinesDict.ContainsKey(airlineCode))
+            try
             {
-                Console.WriteLine("Airline code not found. Please try again.");
-                Console.ReadLine();
-                continue;
-            }
+                flightNumber = InputForString("Enter Flight Number:").ToUpper();
 
-            break;
+                string airlineCode = $"{flightNumber[0]}{flightNumber[1]}";
+
+                if (!airlinesDict.ContainsKey(airlineCode))
+                {
+                    Console.WriteLine("Airline code not found. Please try again.");
+                    Console.ReadLine();
+                    continue;
+                }
+
+                if (flightsDict.ContainsKey(flightNumber))
+                {
+                    Console.WriteLine("There is already a flight with this flight number. Please enter a different one.");
+                    Console.ReadLine();
+                    continue;
+                }
+
+                break;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Please enter a valid airline code.");
+                Console.ReadLine();
+            }
         }
 
         //Get the rest of the inputs.
