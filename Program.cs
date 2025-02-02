@@ -934,20 +934,21 @@ while (true)
                       "7. Display Flight Schedule\n" +
                       "8. Automatically assign flights to boarding gates\n" +
                       "9. Display Total Fee per Airline\n" +
-                      "0. Exit\n\n" +
-                      "Please select your option:");
+                      "0. Exit\n");
 
-    int userInput = 0;
-    try
-    {
-        userInput = int.Parse(Console.ReadLine());
-    }
-    catch (Exception e)
-    {
-        Console.WriteLine(e);
-        Console.ReadLine();
-        continue;
-    }
+    // int userInput = 0;
+    // try
+    // {
+    //     userInput = int.Parse(Console.ReadLine());
+    // }
+    // catch (Exception e)
+    // {
+    //     Console.WriteLine(Console'WriteLine');
+    //     Console.ReadLine();
+    //     continue;
+    // }
+    
+    int userInput = InputForInt("Please select your option:");
 
     if (userInput == 1)
     {
@@ -990,6 +991,10 @@ while (true)
         Console.Write("Goodbye!");
         Console.ReadLine();
         Environment.Exit(0);
+    }
+    else
+    {
+        Console.WriteLine("Invalid Input!");
     }
 
     Console.ReadLine();
