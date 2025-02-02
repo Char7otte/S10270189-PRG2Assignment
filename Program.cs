@@ -101,6 +101,17 @@ void LoadFlights(Dictionary<string, Flight> flightsDict, StreamReader sr)
             };
             
             flightsDict.Add(flightNumber, newFlight);
+
+            // Add flight to corresponding airline
+            string airlineCode = $"{flightNumber[0]}{flightNumber[1]}";
+            if (airlinesDict.ContainsKey(airlineCode))
+            {
+                if (airlinesDict[airlineCode].Flights == null)
+                {
+                    airlinesDict[airlineCode].Flights = new Dictionary<string, Flight>();
+                }
+                airlinesDict[airlineCode].Flights.Add(flightNumber, newFlight);
+            }
         }
 
         Console.WriteLine($"{lineCount} Flights Loaded!");
@@ -820,7 +831,7 @@ void DisplayTotalFeePerAirline()
     Console.WriteLine($"Total Fees: ${totalFees}");
     Console.WriteLine($"Total Discounts: -${totalDiscounts}");
     Console.WriteLine($"Final Total Fees: ${finalTotalFees}");
-    Console.WriteLine($"Discount Percentage: {discountPercentage}%");
+    Console.WriteLine($"Discount Percentage: {discountPercentage:F2}%");
 }
 
 LoadAirlineAndBoardingGateData(airlinesDict, boardingGatesDict, new("airlines.csv"), new("boardinggates.csv"));
