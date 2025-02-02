@@ -203,7 +203,7 @@ void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<strin
 
             if (!flightsDict.ContainsKey(flightNumber))
             {
-                Console.WriteLine("FLIGHT NUMBER NOT FOUND!");
+                Console.WriteLine("Please enter a valid flight number.");
                 Console.ReadLine();
                 continue;
             }
@@ -221,7 +221,7 @@ void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<strin
 
             if (!boardingGatesDict.ContainsKey(boardingGateName))
             {
-                Console.WriteLine("BOARDING GATE NOT FOUND!");
+                Console.WriteLine("Please enter a valid boarding gate.");
                 Console.ReadLine();
                 continue;
             }
@@ -365,8 +365,8 @@ void CreateNewFlight(Dictionary<string, Flight> flightsDict, Dictionary<string, 
         }
 
         //Get the rest of the inputs.
-        string origin = InputForStringNoNewLine("Enter Origin: ");
-        string destination = InputForStringNoNewLine("Enter Destination: ");
+        string origin = InputForStringNoNewLine("Enter Origin: ", "Please enter an origin.");
+        string destination = InputForStringNoNewLine("Enter Destination: ", "Please enter an destination.");
         DateTime departureTime;
         string specialRequestCode;
 
@@ -388,7 +388,7 @@ void CreateNewFlight(Dictionary<string, Flight> flightsDict, Dictionary<string, 
 
         while (true)
         {
-            specialRequestCode = InputForStringNoNewLine("Enter Special Request Code (CFFT/DDJB/LWTT/None): ").ToUpper();
+            specialRequestCode = InputForStringNoNewLine("Enter Special Request Code (CFFT/DDJB/LWTT/None): ", "Please enter a request code, or 'None' if there is no request code.").ToUpper();
             if (specialRequestCode == "CFFT" || specialRequestCode == "DDJB" || specialRequestCode == "LWTT" ||
                 specialRequestCode == "NONE")
             {
@@ -396,6 +396,7 @@ void CreateNewFlight(Dictionary<string, Flight> flightsDict, Dictionary<string, 
             }
             
             Console.WriteLine("Invalid Special Request Code. Please try again.");
+            Console.ReadLine();
         }
 
         //Surely, there won't be any errors here since we've checked all the inputs already <========== Clueless
@@ -994,7 +995,7 @@ while (true)
     Console.ReadLine();
 }
 
-string InputForString(string request, string errorMessage = "Invalid input.")
+string InputForString(string request, string errorMessage = "Please enter something matching one of the options.")
 {
     while (true)
     {
@@ -1030,7 +1031,7 @@ int InputForInt(string request, string errorMessage = "Please enter a number mat
     }
 }
 
-string InputForStringNoNewLine(string request, string errorMessage = "Invalid input.")
+string InputForStringNoNewLine(string request, string errorMessage = "Please enter something matching one of the options.")
 {
     while (true)
     {
