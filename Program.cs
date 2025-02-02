@@ -312,6 +312,9 @@ void AssignGateToFlight(Dictionary<string, Flight> flightsDict, Dictionary<strin
                     Console.WriteLine($"{flight.FlightNumber} has been assigned to Boarding Gate {boardingGate.GateName}!");
                     break;
                 }
+                
+                loopContinue = false;
+                break;
             }
             else
             {
