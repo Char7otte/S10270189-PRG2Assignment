@@ -703,9 +703,9 @@ void DisplayFlightSchedule(Dictionary<string, Flight> flightsDict, Dictionary<st
     Console.WriteLine("=============================================\n" +
                       "Flight Schedule for Changi Airport Terminal 5\n" +
                       "=============================================");
-    
-    string stringFormat = "{0,-20} {1,-20} {2,-20} {3,-20}{4, -20}\n{5, -20} {6, -20}";
-    Console.WriteLine(stringFormat, "Flight Number", "Airline Name", "Origin", "Destination", "Expected Departure/Arrival Time", "Status", "Boarding Gate");
+    //The requirements ask us to include special request code, but the sample output doesn't have it... tsk tsk tsk
+    string stringFormat = "{0,-20} {1,-20} {2,-20} {3,-20}{4, -20}\n{5, -20} {6, -20} {7, -20}";
+    Console.WriteLine(stringFormat, "Flight Number", "Airline Name", "Origin", "Destination", "Expected Departure/Arrival Time", "Status", "Special Request Code", "Boarding Gate");
     
     List<BoardingGate> boardingGatesWithFlights = new();
     foreach (BoardingGate boardingGate in boardingGatesDict.Values.ToList())
@@ -725,6 +725,21 @@ void DisplayFlightSchedule(Dictionary<string, Flight> flightsDict, Dictionary<st
         string status = flight.Status;
         string boardingGate = "Unassigned";
 
+        string specialRequestCode = "";
+
+        if (flight is DDJBFlight)
+        {
+            specialRequestCode = "DDJB";
+        }
+        else if (flight is CFFTFlight)
+        {
+            specialRequestCode = "CFFT";
+        }
+        else if (flight is LWTTFlight)
+        {
+            specialRequestCode = "LWTT";
+        }
+
         foreach (BoardingGate gate in boardingGatesWithFlights)
         {
             if (flight == gate.Flight)
@@ -741,7 +756,7 @@ void DisplayFlightSchedule(Dictionary<string, Flight> flightsDict, Dictionary<st
             airlineName = airlinesDict[airlineCode].Name;
         }
         
-        Console.WriteLine(stringFormat, flightNumber, airlineName, origin, destination, expectedTime, status, boardingGate);
+        Console.WriteLine(stringFormat, flightNumber, airlineName, origin, destination, expectedTime, status, specialRequestCode ,boardingGate);
     }
 }
 
