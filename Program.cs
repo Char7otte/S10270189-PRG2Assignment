@@ -517,12 +517,25 @@ void ModifyFlightDetails()
     if (choice == 1)
     {
         Flight flight = flightsDict[FlightNumber];
-        Console.WriteLine("1. Modify Basic Information\n" +
-                          "2. Modify Status\n" +
-                          "3. Modify Special Request Code\n" +
-                          "4. Modify Boarding Gate\n" +
-                          "Choose an option: ");
-        int choice2 = int.Parse(Console.ReadLine());
+        int choice2;
+        while (true)
+        {
+            Console.WriteLine("1. Modify Basic Information\n" +
+                              "2. Modify Status\n" +
+                              "3. Modify Special Request Code\n" +
+                              "4. Modify Boarding Gate\n" +
+                              "Choose an option: ");
+            string input = Console.ReadLine();
+
+            if (int.TryParse(input, out choice2) && choice2 >= 1 && choice2 <= 4)
+            {
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Invalid input! Please enter a number between 1 and 4.");
+            }
+        }
         switch (choice2)
         {
             case 1:
